@@ -31,11 +31,10 @@ st.write('''
 Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
 
 with st.spinner('Loading...'):
-    time.sleep(3)
-
-vgg16_export_url = "https://drive.google.com/uc?export=download&id=1ep3Z_TtkqREcbisijb7Nhm52YnQ1Pp-Y"
-urllib.request.urlretrieve(vgg16_export_url, "vgg16_model.pkl")
-vgg16_model = load_learner(Path("."), "vgg16_model.pkl")
+    vgg16_export_url = "https://drive.google.com/uc?export=download&id=1ep3Z_TtkqREcbisijb7Nhm52YnQ1Pp-Y"
+    urllib.request.urlretrieve(vgg16_export_url, "vgg16_model.pkl")
+    vgg16_model = load_learner(Path("."), "vgg16_model.pkl")
+    time.sleep(1)
 
 if Uploaded is not None:
     st.image(Uploaded, caption='Uploaded picture', use_column_width=True)
