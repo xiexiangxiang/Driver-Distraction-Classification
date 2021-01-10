@@ -39,8 +39,9 @@ vgg16_model = load_learner(Path("."), "vgg16_model.pkl")
 
 if Uploaded is not None:
     img = Image.open(Uploaded)
-    img_fastai = PILImage.create(Uploaded)
+    #img_fastai = PILImage.create(Uploaded)
     st.image(img, caption='Uploaded picture', use_column_width=True)
     st.write("")
-    pred,pred_idx,probs = vgg16_model.predict(img_fastai)
+    #pred,pred_idx,probs = vgg16_model.predict(img_fastai)
+    pred,pred_idx,probs = vgg16_model.predict(img)
     st.write("vgg16 model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
