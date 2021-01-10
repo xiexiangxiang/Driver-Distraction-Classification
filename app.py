@@ -38,9 +38,9 @@ urllib.request.urlretrieve(vgg16_export_url, "vgg16_model.pkl")
 vgg16_model = load_learner(Path("."), "vgg16_model.pkl")
 
 if Uploaded is not None:
-    img = open_image(Uploaded, width=200)
+    st.image(Uploaded, caption='Uploaded picture', use_column_width=True)
+    img = open_image(Uploaded)
     #img_fastai = PILImage.create(Uploaded)
-    st.image(img, caption='Uploaded picture', use_column_width=True)
     st.write("")
     #pred,pred_idx,probs = vgg16_model.predict(img_fastai)
     pred,pred_idx,probs = vgg16_model.predict(img)
