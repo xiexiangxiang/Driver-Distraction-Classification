@@ -5,12 +5,13 @@ import PIL
 import matplotlib.image as mpimg
 import time
 
-# funtions
+## Funtions
 def predict_img(model_export_url, img, display_img):
+  # Display Image
   st.image(display_img, use_column_width=True)
   with st.spinner('Loading...'):
         time.sleep(1)
-  # model loading & predicting
+  # Model Loading & Prediction
   urllib.request.urlretrieve(model_export_url, "model.pkl")
   model = load_learner(Path("."), "model.pkl")
   pred, pred_idx, probs = model.predict(img)
@@ -26,7 +27,8 @@ def model_options():
       predict_img(ResNet18_export_url, img, display_img)
   elif model_option == 'ResNet34':
       predict_img(ResNet34_export_url, img, display_img)
- 
+
+## Homepage
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Driver Distraction Classification")
 st.write('''
@@ -53,7 +55,6 @@ ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1WN6CbB2a5
 
 # Try test image / Upload image
 option = st.radio('', ['Try a test image', 'Upload image'])
-
 if option == 'Try a test image':
     test_imgs = os.listdir('test-image/')
     test_img = st.selectbox('Please select a test image:', test_imgs)
@@ -62,12 +63,11 @@ if option == 'Try a test image':
     display_img = mpimg.imread(file_path)
     # different model prediction
     model_options()
-
 else:
     st.write('''### Please upload a picture for one of these distracted driver behaviour''')
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       img = open_image(Uploaded)
-      display_img = st.image(Uploaded, caption='Uploaded picture', use_column_width=True)
+      display_img = Uploaded
       # different model prediction
       model_options()
