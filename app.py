@@ -44,7 +44,6 @@ if option == 'Try a test image':
 else:
     st.write('''### Please upload a picture for one of these distracted driver behaviour''')
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
-      
     if Uploaded is not None:
       img = open_image(Uploaded)
       display_img = st.image(Uploaded, caption='Uploaded picture', use_column_width=True)
