@@ -4,6 +4,7 @@ from ipywidgets import *
 from PIL import Image
 import streamlit as st
 #import urllib.request
+import time
 import wget
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
