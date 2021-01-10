@@ -1,11 +1,11 @@
 from fastai.vision import *
 #from fastai.vision.widgets import *
-from ipywidgets import * 
+#from ipywidgets import * 
 from PIL import Image
 import streamlit as st
-#import urllib.request
+import urllib.request
 import time
-import wget
+#import wget
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Driver Distraction Classification")
@@ -33,8 +33,9 @@ Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
 with st.spinner('Loading...'):
     time.sleep(3)
 
-vgg16_export_url = wget.download('https://drive.google.com/uc?id=1ep3Z_TtkqREcbisijb7Nhm52YnQ1Pp-Y&export=download')
-vgg16_model = load_learner(vgg16_export_url)
+vgg16_export_url = "https://drive.google.com/uc?export=download&id=1ep3Z_TtkqREcbisijb7Nhm52YnQ1Pp-Y"
+urllib.request.urlretrieve(vgg16_export_url, "vgg16_model.pkl")
+vgg16_model = load_learner(Path("."), "vgg16_model.pkl")
 
 if Uploaded is not None:
     img = Image.open(Uploaded)
