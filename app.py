@@ -1,7 +1,7 @@
 from fastai.vision import *
 #from fastai.vision.widgets import *
 #from ipywidgets import * 
-from PIL import Image
+import PIL
 import streamlit as st
 import urllib.request
 import time
@@ -38,7 +38,7 @@ urllib.request.urlretrieve(vgg16_export_url, "vgg16_model.pkl")
 vgg16_model = load_learner(Path("."), "vgg16_model.pkl")
 
 if Uploaded is not None:
-    img = Image.open(Uploaded)
+    img = open_image(Uploaded, width=200)
     #img_fastai = PILImage.create(Uploaded)
     st.image(img, caption='Uploaded picture', use_column_width=True)
     st.write("")
