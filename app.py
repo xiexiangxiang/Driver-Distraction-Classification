@@ -1,9 +1,9 @@
-from fastai.vision.all import *
-from fastai.vision.widgets import *
+from fastai.vision import *
+#from fastai.vision.widgets import *
 from ipywidgets import * 
 from PIL import Image
 import streamlit as st
-import urllib.request
+#import urllib.request
 import wget
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
