@@ -12,10 +12,11 @@ def predict_img(model_export_url, img, display_img):
   with st.spinner('Loading...'):
         time.sleep(1)
   # Model Loading & Prediction
-  urllib.request.urlretrieve(model_export_url, "model.pkl")
-  model = load_learner(Path("."), "model.pkl")
-  pred, pred_idx, probs = model.predict(img)
-  st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
+  if st.button("Analyse"):
+    urllib.request.urlretrieve(model_export_url, "model.pkl")
+    model = load_learner(Path("."), "model.pkl")
+    pred, pred_idx, probs = model.predict(img)
+    st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
   
 def model_options():
   model_option = st.radio('', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
