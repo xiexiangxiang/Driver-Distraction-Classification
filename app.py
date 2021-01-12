@@ -102,8 +102,8 @@ if page == 'Baseline Model Prediction':
       # different model prediction
       model_options(predict=True)
   
-## Page - Baseline Model Plot
-elif page == 'Baseline Model Plot':
+## Page - Baseline Model Performance
+elif page == 'Baseline Model Performance':
   st.title("Driver Distraction Classification")
   st.write('''
   ---
