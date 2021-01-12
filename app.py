@@ -23,12 +23,10 @@ def plot_interp(model_export_url):
   urllib.request.urlretrieve(model_export_url, "model.pkl")
   model = load_learner(Path("."), "model.pkl")
   interp = ClassificationInterpretation.from_learner(model)
-  losses,idxs = interp.top_losses()
   ## 1. Test accuracy 
   preds, y = model.get_preds(ds_type=DatasetType.Valid)
   print('Test accuracy = ', accuracy(preds, y).item())
   ## 2. Plot confusion matrix
-  doc(interp.plot_top_losses)
   interp.plot_confusion_matrix(figsize=(11,11), dpi=60)
   ## 3. Visualise most wrongly predicted images
   interp.plot_top_losses(9, figsize=(15,11))
