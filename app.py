@@ -44,7 +44,7 @@ def model_options(predict=False, show_performance=False):
     elif model_option == 'ResNet34':
       predict_img(ResNet34_export_url, img, display_img)
   
-  elif show_performance=True:
+  elif show_performance == True:
     if model_option == 'Vgg16':
       plot_interp(Vgg16_export_url)
     elif model_option == 'Vgg19':
