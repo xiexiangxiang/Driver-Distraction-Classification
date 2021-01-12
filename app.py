@@ -1,5 +1,6 @@
 import streamlit as st
 from fastai.vision import *
+from fastai.metrics import *
 import urllib.request
 import PIL
 import matplotlib.image as mpimg
