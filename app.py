@@ -1,10 +1,10 @@
 import streamlit as st
 from fastai.vision import *
 from fastai.metrics import *
-import urllib.request
+import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
-import zipfile as zf
+import requests, zipfile as zf, io # get model.pth
 import time
 
 ## Funtions
@@ -21,12 +21,12 @@ def predict_img(model_export_url, img, display_img):
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
 
 def plot_interp(DatasetZip_url, model_weight_url, model_arch):
-  urllib.request.urlretrieve(DatasetZip_url, "Dataset.zip")
+  dataset_request = requests.get(DatasetZip_url, stream=True)
   urllib.request.urlretrieve(model_weight_url, "model.pth")
-  dataset = zf.ZipFile("Dataset.zip",'r')
+  dataset = zf.ZipFile(io.BytesIO(dataset_request.content))
   dataset.extractall()
   dataset.close()
-  path = "Dataset/Camera1/"
+  path = "AUC_Distracted_Driver_Dataset/Camera1/"
   data = ImageDataBunch.from_folder(path, train='train', valid='test', 
                                     ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   model = Learner(data, model_arch, metrics=accuracy).load(Path("."), "model.pth")
