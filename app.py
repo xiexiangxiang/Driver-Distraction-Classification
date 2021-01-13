@@ -4,6 +4,7 @@ from fastai.metrics import *
 import urllib.request
 import PIL
 import matplotlib.image as mpimg
+import zipfile as zf
 import time
 
 ## Funtions
@@ -19,9 +20,15 @@ def predict_img(model_export_url, img, display_img):
     pred, pred_idx, probs = model.predict(img)
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
 
-def plot_interp(model_export_url):
-  urllib.request.urlretrieve(model_export_url, "model.pkl")
-  model = load_learner(Path("."), "model.pkl")
+def plot_interp(DataZip_url, model_weight_url, model_arch):
+  urllib.request.urlretrieve(DataZip_url, "Dataset.zip")
+  urllib.request.urlretrieve(model_weight_url, "model.pth")
+  dataset = zf.ZipFile("./Dataset.zip",'r')
+  dataset.extractall()
+  dataset.close()
+  data = ImageDataBunch.from_folder(path, train='train', valid='test', 
+                                    ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  model = Learner(data, model_arch, metrics=accuracy).load(Path("."), "model.pth")
   interp = ClassificationInterpretation.from_learner(model)
   ## 1. Test accuracy 
   preds, y = model.get_preds(ds_type=DatasetType.Valid)
@@ -45,24 +52,32 @@ def model_options(predict=False, show_performance=False):
   
   elif show_performance == True:
     if model_option == 'Vgg16':
-      plot_interp(Vgg16_export_url)
+      plot_interp(DataZip_url, Vgg16_weight_url, models.vgg16_bn)
     elif model_option == 'Vgg19':
-      plot_interp(Vgg19_export_url)
+      plot_interp(DataZip_url, Vgg19_weight_url, models.vgg19_bn)
     elif model_option == 'ResNet18':
-      plot_interp(ResNet18_export_url)
+      plot_interp(DataZip_url, ResNet18_weight_url, models.resnet18)
     elif model_option == 'ResNet34':
-      plot_interp(ResNet34_export_url)
+      plot_interp(DataZip_url, ResNet34_weight_url, models.resnet34)
 
       
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
+# Data
+DataZip_url = "https://drive.google.com/uc?export=download&id=1j5m9uK0CD2F4bVn5loSaKtDaUqG3l11Z"
+
 # Model Export URL
-Vgg16_export_url = "https://drive.google.com/uc?export=download&id=1ep3Z_TtkqREcbisijb7Nhm52YnQ1Pp-Y"
-Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1pUmdPkUCWIukt6ObdAC3iN86EimvxoUs"
-ResNet18_export_url = "https://drive.google.com/uc?export=download&id=1q3slph_m8tksbramxyyX8kpli5Gpetth"
-ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1WN6CbB2a5e6e1i2TqVsM1X01kLQQ2iXX"
+Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
+Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1hVShpb9k2o3hLqY2x4ShQ_jR5Uqb1Bjo"
+ResNet18_export_url = "https://drive.google.com/uc?export=download&id=1sNmlieI8bJB6yGyOTgj-r5mGhKBbrltd"
+ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1r8ohh3cLc1dKP7bLW_OZMfeBDAj0Ugxh"
+# Model Weight URL
+Vgg16_weight_url = "https://drive.google.com/uc?export=download&id=1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf"
+Vgg19_weight_url = "https://drive.google.com/uc?export=download&id=1-NpZYlfUmnKCJihA2BRt7Ws38me_pkfr"
+ResNet18_weight_url = "https://drive.google.com/uc?export=download&id=1zNjarWxGld7uF4iBze0ZQQx_5SfRejvG"
+ResNet34_weight_url = "https://drive.google.com/uc?export=download&id=1ZItSPxQ6k_oaR-t-6H6fE3ubJZFj3Z9E"
 
 ## Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
