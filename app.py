@@ -56,7 +56,16 @@ def model_options(predict=False, show_performance=False):
     elif model_option == 'ResNet34':
       plot_interp(data, ResNet34_weight_url, models.resnet34)
 
-      
+@st.cache(ttl=3600, max_entries=10)
+def get_data(Dataset_Zip_url):
+  with st.spinner('Loading Dataset...'):
+        time.sleep(2)
+  gdown.download(Dataset_Zip_url, 'data.zip', quiet=False) # Load dataset zip
+  zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
+  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
+  data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  return data
+
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -128,11 +137,6 @@ elif page == 'Baseline Model Performance':
   with st.spinner('Loading Dataset...'):
     time.sleep(2)
   '''
-  # Load dataset zip
-  gdown.download(DataZip_url, 'data.zip', quiet=False)
-  # Extract
-  zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
-  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
-  data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  get_data(DataZip_url)
   # different model performance
   model_options(show_performance=True)
