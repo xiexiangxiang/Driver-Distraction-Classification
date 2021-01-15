@@ -131,10 +131,6 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    '''
           )
-  '''
-  with st.spinner('Loading Dataset...'):
-    time.sleep(2)
-  '''
   data = get_data(DataZip_url)
   # different model performance
   model_options(show_performance=True)
