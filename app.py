@@ -58,8 +58,6 @@ def model_options(predict=False, show_performance=False):
 
 @st.cache(ttl=3600, max_entries=10)
 def get_data(Dataset_Zip_url):
-  with st.spinner('Loading Dataset...'):
-        time.sleep(2)
   gdown.download(Dataset_Zip_url, 'data.zip', quiet=False) # Load dataset zip
   zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
   path = 'AUC_Distracted_Driver_Dataset/Camera1/'
@@ -137,6 +135,6 @@ elif page == 'Baseline Model Performance':
   with st.spinner('Loading Dataset...'):
     time.sleep(2)
   '''
-  get_data(DataZip_url)
+  data = get_data(DataZip_url)
   # different model performance
   model_options(show_performance=True)
