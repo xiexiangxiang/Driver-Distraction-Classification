@@ -124,8 +124,10 @@ elif page == 'Baseline Model Performance':
           )
   with st.spinner('Loading Dataset...'):
     time.sleep(2)
-  # Load data
+  # Load dataset zip
   gdown.download(DataZip_url, 'data.zip', quiet=False)
+  # Extract
+  zf.ZipFile('data.zip').extractall()
   path = 'AUC_Distracted_Driver_Dataset/Camera1/'
   data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   # different model performance
