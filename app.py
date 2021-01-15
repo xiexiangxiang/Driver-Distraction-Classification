@@ -4,7 +4,7 @@ from fastai.metrics import *
 import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
-import requests, zipfile as zf, io # get model.pth
+import gdown # get data
 import time
 
 ## Funtions
@@ -21,12 +21,9 @@ def predict_img(model_export_url, img, display_img):
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
 
 def plot_interp(DatasetZip_url, model_weight_url, model_arch):
-  dataset_request = requests.get(DatasetZip_url, stream=True)
   urllib.request.urlretrieve(model_weight_url, "model.pth")
-  dataset = zf.ZipFile(io.BytesIO(dataset_request.content))
-  dataset.extractall()
-  dataset.close()
-  path = "AUC_Distracted_Driver_Dataset/Camera1/"
+  gdown.download(DatasetZip_url, 'data.zip', quiet=False)
+  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
   data = ImageDataBunch.from_folder(path, train='train', valid='test', 
                                     ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   model = Learner(data, model_arch, metrics=accuracy).load(Path("."), "model.pth")
@@ -67,7 +64,7 @@ page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Base
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Data
-DataZip_url = "https://drive.google.com/uc?export=download&id=1j5m9uK0CD2F4bVn5loSaKtDaUqG3l11Z"
+DataZip_url = 'https://drive.google.com/uc?id=1j5m9uK0CD2F4bVn5loSaKtDaUqG3l11Z'
 
 # Model Export URL
 Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
