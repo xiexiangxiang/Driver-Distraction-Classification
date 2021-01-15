@@ -63,7 +63,7 @@ def get_data(Dataset_Zip_url):
   data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   return data
 
-@st.cache(ttl=3600, max_entries=10)
+@st.cache(ttl=3600, max_entries=10, allow_output_mutation=True)
 def load_model_weight(data, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'model.pth', quiet=False)
   model = cnn_learner(data, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
