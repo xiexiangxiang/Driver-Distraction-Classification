@@ -66,19 +66,20 @@ def model_options(predict=False, show_performance=False):
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
-# Data
+# Data -- gdown
 DataZip_url = 'https://drive.google.com/uc?id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx' #add temp empty file named "models"
 
-# Model Export URL
+# Model Export URL -- urllib.request
 Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
 Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1hVShpb9k2o3hLqY2x4ShQ_jR5Uqb1Bjo"
 ResNet18_export_url = "https://drive.google.com/uc?export=download&id=1sNmlieI8bJB6yGyOTgj-r5mGhKBbrltd"
 ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1r8ohh3cLc1dKP7bLW_OZMfeBDAj0Ugxh"
-# Model Weight URL
-Vgg16_weight_url = "https://drive.google.com/uc?export=download&id=1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf"
-Vgg19_weight_url = "https://drive.google.com/uc?export=download&id=1-NpZYlfUmnKCJihA2BRt7Ws38me_pkfr"
-ResNet18_weight_url = "https://drive.google.com/uc?export=download&id=1zNjarWxGld7uF4iBze0ZQQx_5SfRejvG"
-ResNet34_weight_url = "https://drive.google.com/uc?export=download&id=1ZItSPxQ6k_oaR-t-6H6fE3ubJZFj3Z9E"
+
+# Model Weight URL -- gdown
+Vgg16_weight_url = "https://drive.google.com/uc?id=1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf"
+Vgg19_weight_url = "https://drive.google.com/uc?id=1-NpZYlfUmnKCJihA2BRt7Ws38me_pkfr"
+ResNet18_weight_url = "https://drive.google.com/uc?id=1zNjarWxGld7uF4iBze0ZQQx_5SfRejvG"
+ResNet34_weight_url = "https://drive.google.com/uc?id=1ZItSPxQ6k_oaR-t-6H6fE3ubJZFj3Z9E"
 
 ## Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
