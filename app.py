@@ -70,6 +70,8 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Data -- gdown
 DataZip_url = 'https://drive.google.com/uc?id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx' #add temp empty file named "models"
+# get Data
+data = get_data(DataZip_url)
 
 # Model Export URL -- urllib.request
 Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
@@ -131,6 +133,5 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    '''
           )
-  data = get_data(DataZip_url)
   # different model performance
   model_options(show_performance=True)
