@@ -4,7 +4,7 @@ from fastai.metrics import *
 import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
-import gdown # get data
+import gdown # get data & model.pth ## Due to *Large File Size*
 import time
 
 ## Funtions
@@ -12,7 +12,7 @@ def predict_img(model_export_url, img, display_img):
   # Display Image
   st.image(display_img, use_column_width=True)
   with st.spinner('Loading...'):
-        time.sleep(1)
+        time.sleep(2)
   # Model Loading & Prediction
   if st.button("Analyse"):
     urllib.request.urlretrieve(model_export_url, "model.pkl")
@@ -20,13 +20,9 @@ def predict_img(model_export_url, img, display_img):
     pred, pred_idx, probs = model.predict(img)
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
 
-def plot_interp(DatasetZip_url, model_weight_url, model_arch):
-  urllib.request.urlretrieve(model_weight_url, "model.pth")
-  gdown.download(DatasetZip_url, 'data.zip', quiet=False)
-  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
-  data = ImageDataBunch.from_folder(path, train='train', valid='test', 
-                                    ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
-  model = Learner(data, model_arch, metrics=accuracy).load(Path("."), "model.pth")
+def plot_interp(data, model_weight_url, model_arch):
+  gdown.download(model_weight_url, 'model.pth', quiet=False)
+  model = cnn_learner(data, model_arch, metrics=accuracy).load("model.pth") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   interp = ClassificationInterpretation.from_learner(model)
   ## 1. Test accuracy 
   preds, y = model.get_preds(ds_type=DatasetType.Valid)
@@ -49,14 +45,21 @@ def model_options(predict=False, show_performance=False):
       predict_img(ResNet34_export_url, img, display_img)
   
   elif show_performance == True:
+    with st.spinner('Loading Dataset...'):
+        time.sleep(2)
+    # Load data
+    gdown.download(DatasetZip_url, 'data.zip', quiet=False)
+    path = 'AUC_Distracted_Driver_Dataset/Camera1/'
+    data = ImageDataBunch.from_folder(path, train='train', valid='test', 
+                                    ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
     if model_option == 'Vgg16':
-      plot_interp(DataZip_url, Vgg16_weight_url, models.vgg16_bn)
+      plot_interp(data, Vgg16_weight_url, models.vgg16_bn)
     elif model_option == 'Vgg19':
-      plot_interp(DataZip_url, Vgg19_weight_url, models.vgg19_bn)
+      plot_interp(data, Vgg19_weight_url, models.vgg19_bn)
     elif model_option == 'ResNet18':
-      plot_interp(DataZip_url, ResNet18_weight_url, models.resnet18)
+      plot_interp(data, ResNet18_weight_url, models.resnet18)
     elif model_option == 'ResNet34':
-      plot_interp(DataZip_url, ResNet34_weight_url, models.resnet34)
+      plot_interp(data, ResNet34_weight_url, models.resnet34)
 
       
 # Pages
@@ -64,7 +67,7 @@ page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Base
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Data
-DataZip_url = 'https://drive.google.com/uc?id=1j5m9uK0CD2F4bVn5loSaKtDaUqG3l11Z'
+DataZip_url = 'https://drive.google.com/uc?id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx' #add temp empty file named "models"
 
 # Model Export URL
 Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
