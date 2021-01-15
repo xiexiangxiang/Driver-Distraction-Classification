@@ -45,13 +45,6 @@ def model_options(predict=False, show_performance=False):
       predict_img(ResNet34_export_url, img, display_img)
   
   elif show_performance == True:
-    with st.spinner('Loading Dataset...'):
-        time.sleep(2)
-    # Load data
-    gdown.download(DataZip_url, 'data.zip', quiet=False)
-    path = 'AUC_Distracted_Driver_Dataset/Camera1/'
-    data = ImageDataBunch.from_folder(path, train='train', valid='test', 
-                                    ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
     if model_option == 'Vgg16':
       plot_interp(data, Vgg16_weight_url, models.vgg16_bn)
     elif model_option == 'Vgg19':
@@ -129,4 +122,11 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    '''
           )
+  with st.spinner('Loading Dataset...'):
+    time.sleep(2)
+  # Load data
+  gdown.download(DataZip_url, 'data.zip', quiet=False)
+  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
+  data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  # different model performance
   model_options(show_performance=True)
