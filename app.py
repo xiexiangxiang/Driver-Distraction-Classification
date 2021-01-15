@@ -4,7 +4,8 @@ from fastai.metrics import *
 import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
-import gdown # get data & model.pth ## Due to *Large File Size*
+import gdown # get data.zip & model.pth ## Due to *Large File Size*
+import zipfile as zf # extract data.zip
 import time
 
 ## Funtions
@@ -127,7 +128,7 @@ elif page == 'Baseline Model Performance':
   # Load dataset zip
   gdown.download(DataZip_url, 'data.zip', quiet=False)
   # Extract
-  zf.ZipFile('data.zip').extractall()
+  zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
   path = 'AUC_Distracted_Driver_Dataset/Camera1/'
   data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   # different model performance
