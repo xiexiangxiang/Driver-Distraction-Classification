@@ -64,7 +64,7 @@ def get_data(Dataset_Zip_url):
   return data
 
 @st.cache(ttl=3600, max_entries=10)
-def load_models(data, model_weight_url, model_arch):
+def load_model(data, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'model.pth', quiet=False)
   model = cnn_learner(data, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
@@ -75,8 +75,6 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Data -- gdown
 DataZip_url = 'https://drive.google.com/uc?id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx' #add temp empty file named "models"
-# get Data
-data = get_data(DataZip_url)
 
 # Model Export URL -- urllib.request
 Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
@@ -138,5 +136,7 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    '''
           )
+  # get Data
+  data = get_data(DataZip_url)
   # different model performance
   model_options(show_performance=True)
