@@ -23,7 +23,7 @@ def predict_img(model_export_url, img, display_img):
 
 def plot_interp(data, model_weight_url, model_arch):
   if st.button("Show Graphs"):
-    model = load_model(data, model_weight_url, model_arch)
+    model = load_model_weight(data, model_weight_url, model_arch)
     interp = ClassificationInterpretation.from_learner(model)
     ## 1. Test accuracy
     preds, y = model.get_preds(ds_type=DatasetType.Valid)
@@ -64,7 +64,7 @@ def get_data(Dataset_Zip_url):
   return data
 
 @st.cache(ttl=3600, max_entries=10)
-def load_model(data, model_weight_url, model_arch):
+def load_model_weight(data, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'model.pth', quiet=False)
   model = cnn_learner(data, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
