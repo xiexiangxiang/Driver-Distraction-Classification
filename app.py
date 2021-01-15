@@ -48,7 +48,7 @@ def model_options(predict=False, show_performance=False):
     with st.spinner('Loading Dataset...'):
         time.sleep(2)
     # Load data
-    gdown.download(DatasetZip_url, 'data.zip', quiet=False)
+    gdown.download(DataZip_url, 'data.zip', quiet=False)
     path = 'AUC_Distracted_Driver_Dataset/Camera1/'
     data = ImageDataBunch.from_folder(path, train='train', valid='test', 
                                     ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
