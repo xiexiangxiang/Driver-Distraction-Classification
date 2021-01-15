@@ -22,16 +22,17 @@ def predict_img(model_export_url, img, display_img):
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
 
 def plot_interp(data, model_weight_url, model_arch):
-  gdown.download(model_weight_url, 'model.pth', quiet=False)
-  model = cnn_learner(data, model_arch, metrics=accuracy).load("model.pth") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
-  interp = ClassificationInterpretation.from_learner(model)
-  ## 1. Test accuracy 
-  preds, y = model.get_preds(ds_type=DatasetType.Valid)
-  print('Test accuracy = ', accuracy(preds, y).item())
-  ## 2. Plot confusion matrix
-  interp.plot_confusion_matrix(figsize=(11,11), dpi=60)
-  ## 3. Visualise most wrongly predicted images
-  interp.plot_top_losses(9, figsize=(15,11))
+  if st.button("Show Graphs"):
+    gdown.download(model_weight_url, 'model.pth', quiet=False)
+    model = cnn_learner(data, model_arch, metrics=accuracy).load("model.pth") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
+    interp = ClassificationInterpretation.from_learner(model)
+    ## 1. Test accuracy
+    preds, y = model.get_preds(ds_type=DatasetType.Valid)
+    print('Test accuracy = ', accuracy(preds, y).item())
+    ## 2. Plot confusion matrix
+    interp.plot_confusion_matrix(figsize=(11,11), dpi=60)
+    ## 3. Visualise most wrongly predicted images
+    interp.plot_top_losses(9, figsize=(15,11))
   
 def model_options(predict=False, show_performance=False):
   model_option = st.radio('', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
@@ -123,8 +124,10 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    '''
           )
+  '''
   with st.spinner('Loading Dataset...'):
     time.sleep(2)
+  '''
   # Load dataset zip
   gdown.download(DataZip_url, 'data.zip', quiet=False)
   # Extract
