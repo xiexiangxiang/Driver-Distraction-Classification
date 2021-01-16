@@ -187,7 +187,7 @@ elif page == 'Baseline Model Performance':
   zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
   path = 'AUC_Distracted_Driver_Dataset/Camera1/'
   data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
-  st.write("data classes: " len(data.classes))
+  st.write("data classes: ", len(data.classes))
   
   download_file_from_google_drive("1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf", "AUC_Distracted_Driver_Dataset/Camera1/models/model.pth")
   st.write("model weight downloaded")
