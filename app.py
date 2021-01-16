@@ -107,7 +107,7 @@ def download_url():
     else:
       st.write("Model Weight is here.")
 '''  
-vgg16_url_id = 1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf
+vgg16_url_id = "1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf"
 def load_model():
   save_dest = Path('model')
   save_dest.mkdir(exist_ok=True)
