@@ -4,13 +4,9 @@ from fastai.metrics import *
 import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
-#import gdown # get data.zip & model.pth ## Due to *Large File Size*
+import gdown # get data.zip & model.pth ## Due to *Large File Size*
 import zipfile as zf # extract data.zip
 import time
-
-#import os
-#import wget
-from pathlib import Path
 
 ## Funtions
 def predict_img(model_export_url, img, display_img):
@@ -65,7 +61,6 @@ def model_options(predict=False, show_performance=False):
       model = load_model_weight(ResNet34_weight_url, models.resnet34)
       plot_interp(model)
 
-'''
 @st.cache(ttl=3600, max_entries=10, allow_output_mutation=True)
 def get_data(Dataset_Zip_url):
   gdown.download(Dataset_Zip_url, 'data.zip', quiet=False) # Load dataset zip
@@ -74,26 +69,11 @@ def get_data(Dataset_Zip_url):
   data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   return data
 
-@st.cache(ttl=3600, max_entries=10)
+@st.cache(ttl=7200, max_entries=10)
 def load_model_weight(dataset, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth', quiet=False)
   model = cnn_learner(dataset, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
-'''
-
-vgg16_url_id = "1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf"
-@st.cache
-def load_model():
-  save_dest = Path('model')
-  save_dest.mkdir(exist_ok=True)
-  
-  model_path = Path("model/vgg16.pth")
-  if not model_path.exists():
-    with st.spinner("Downloading... this may take awhile! \n Don't stop it!"):
-      from GD_download import download_file_from_google_drive
-      download_file_from_google_drive(vgg16_url_id, model_path)
-  else:
-    st.write('model downloaded')
   
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
@@ -162,20 +142,11 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    ''')
   # get Data
-  #data = get_data(DataZip_url)
-  #st.write("data classes", len(data.classes))
-  #load_model()
-  with st.spinner("Data ING..."):
-      from GD_download import download_file_from_google_drive
-      download_file_from_google_drive("1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx", "data.zip")
-  zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
-  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
-  data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
-  st.write("Data classes: ", len(data.classes))
+  data = get_data(DataZip_url)
+  st.write("data classes", len(data.classes))
   
-  with st.spinner("Model ING..."):
-    download_file_from_google_drive("12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg", "AUC_Distracted_Driver_Dataset/Camera1/models/model.pth")
-    model = cnn_learner(data, models.vgg16_bn, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
+  # load model weight
+  model = load_model_weight(data, Vgg16_weight_url, models.vgg16_bn)
   
   if st.button("show"):
     preds, y = model.get_preds(ds_type=DatasetType.Valid)
