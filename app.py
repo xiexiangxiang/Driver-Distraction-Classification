@@ -8,8 +8,9 @@ import matplotlib.image as mpimg
 import zipfile as zf # extract data.zip
 import time
 
-import os
-import wget
+#import os
+#import wget
+from pathlib import Path
 
 ## Funtions
 def predict_img(model_export_url, img, display_img):
@@ -78,7 +79,7 @@ def load_model_weight(dataset, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth', quiet=False)
   model = cnn_learner(dataset, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
-'''
+
 # try
 @st.cache
 def download_url():
@@ -105,7 +106,20 @@ def download_url():
         os.system(model_url)
     else:
       st.write("Model Weight is here.")
-
+'''  
+vgg16_url_id = 1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf
+def load_model():
+  save_dest = Path('model')
+  save_dest.mkdir(exist_ok=True)
+  
+  model_path = Path("model/vgg16.pth")
+  if not model_path.exists():
+    with st.spinner("Downloading... this may take awhile! \n Don't stop it!"):
+      from GD_download import download_file_from_google_drive
+      download_file_from_google_drive(vgg16_url_id, model_path)
+  else:
+    st.write('model downloaded')
+  
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
 st.set_option('deprecation.showfileUploaderEncoding', False)
