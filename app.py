@@ -164,7 +164,13 @@ elif page == 'Baseline Model Performance':
   # get Data
   #data = get_data(DataZip_url)
   #st.write("data classes", len(data.classes))
-  
   load_model()
+  with st.spinner("ING..."):
+      from GD_download import download_file_from_google_drive
+      download_file_from_google_drive("1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx", "data.zip")
+  zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
+  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
+  data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  st.write("Data classes: ", len(data.classes))
   # different model performance
   #model_options(show_performance=True)
