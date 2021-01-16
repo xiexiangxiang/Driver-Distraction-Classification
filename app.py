@@ -122,6 +122,14 @@ Vgg19_weight_url = "https://drive.google.com/uc?id=1-NpZYlfUmnKCJihA2BRt7Ws38me_
 ResNet18_weight_url = "https://drive.google.com/uc?id=1zNjarWxGld7uF4iBze0ZQQx_5SfRejvG"
 ResNet34_weight_url = "https://drive.google.com/uc?id=1ZItSPxQ6k_oaR-t-6H6fE3ubJZFj3Z9E"
 
+download_file_from_google_drive("1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx", "data.zip")
+zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
+path = 'AUC_Distracted_Driver_Dataset/Camera1/'
+data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  
+download_file_from_google_drive("1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf", "AUC_Distracted_Driver_Dataset/Camera1/models/model.pth")
+model = cnn_learner(data, models.vgg16_bn, metrics=accuracy).load("/content/model_weight") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
+
 ## Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
   st.title("Driver Distraction Classification")
@@ -183,6 +191,7 @@ elif page == 'Baseline Model Performance':
   '''
   # different model performance
   #model_options(show_performance=True)
+  '''
   download_file_from_google_drive("1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx", "data.zip")
   zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
   path = 'AUC_Distracted_Driver_Dataset/Camera1/'
@@ -194,6 +203,7 @@ elif page == 'Baseline Model Performance':
   if st.button("load model weight"):
     model = cnn_learner(data, models.vgg16_bn, metrics=accuracy).load("/content/model_weight") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   st.write("model weight loaded")
+  '''
   if st.button("Find accuracy"):
     preds, y = model.get_preds(ds_type=DatasetType.Valid)
     st.write('Test accuracy = ', accuracy(preds, y).item())
