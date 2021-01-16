@@ -105,7 +105,7 @@ def load_model_weight(dataset, model_weight_url, model_arch):
   
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
-st.set_option('deprecation.showfileUploaderEncoding', False)
+#st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Data -- gdown
 DataZip_url = 'https://drive.google.com/uc?id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx' #add temp empty file named "models"
