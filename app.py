@@ -4,7 +4,7 @@ from fastai.metrics import *
 import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
-import gdown # get data.zip & model.pth ## Due to *Large File Size*
+#import gdown # get data.zip & model.pth ## Due to *Large File Size*
 import zipfile as zf # extract data.zip
 import time
 
@@ -64,6 +64,7 @@ def model_options(predict=False, show_performance=False):
       model = load_model_weight(ResNet34_weight_url, models.resnet34)
       plot_interp(model)
 
+'''
 @st.cache(ttl=3600, max_entries=10, allow_output_mutation=True)
 def get_data(Dataset_Zip_url):
   gdown.download(Dataset_Zip_url, 'data.zip', quiet=False) # Load dataset zip
@@ -77,7 +78,7 @@ def load_model_weight(dataset, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth', quiet=False)
   model = cnn_learner(dataset, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
-
+'''
 # try
 @st.cache
 def download_url():
