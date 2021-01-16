@@ -143,5 +143,10 @@ elif page == 'Baseline Model Performance':
    ''')
   # get Data
   data = get_data(DataZip_url)
+  st.write("data classes", len(data.classes))
+  vgg16_model = load_model_weight(data, Vgg16_weight_url, models.vgg16_bn)
+  if st.button("show"):
+    preds, y = vgg16_model.get_preds(ds_type=DatasetType.Valid)
+    st.write('Test accuracy = ', accuracy(preds, y).item())
   # different model performance
-  model_options(show_performance=True)
+  #model_options(show_performance=True)
