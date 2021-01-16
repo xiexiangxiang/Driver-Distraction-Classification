@@ -168,11 +168,10 @@ elif page == 'Baseline Model Performance':
    Confusion Matrix,
    Most Wronly Predicted Classes**
    ''')
-  '''
   # get Data
-  data = get_data(DataZip_url)
-  st.write("data classes", len(data.classes))
-  '''
+  #data = get_data(DataZip_url)
+  #st.write("data classes", len(data.classes))
+  
   download_url()
   # different model performance
   #model_options(show_performance=True)
