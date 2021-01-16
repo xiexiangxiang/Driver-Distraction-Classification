@@ -1,4 +1,4 @@
-# taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
+# taken from this StackOverflow answer: https://stackoverflow.com/a/39225039 & GD_download.py: https://github.com/thoppe/streamlit-skyAR/blob/master/GD_download.py
 import requests
 
 def download_file_from_google_drive(id, destination):
