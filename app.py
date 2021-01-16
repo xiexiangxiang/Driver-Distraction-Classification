@@ -95,7 +95,7 @@ def download_url():
     else:
         st.write("Data is here.")
 
-    if not os.path.exists(path2):
+    if not os.path.exists(model_weight_path):
         model_url = 'wget -O ./model.pth https://docs.google.com/uc?export=download&confirm=1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf'
         with st.spinner('Downloading Model Weight'):
             os.system(model_url)
