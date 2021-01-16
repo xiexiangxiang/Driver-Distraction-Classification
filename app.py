@@ -21,12 +21,12 @@ def predict_img(model_export_url, img, display_img):
     pred, pred_idx, probs = model.predict(img)
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
 
-def plot_interp(data, model_weight_url, model_arch):
+def plot_interp(learn_model):
   if st.button("Show Graphs"):
-    model = load_model_weight(data, model_weight_url, model_arch)
-    interp = ClassificationInterpretation.from_learner(model)
+    #learn_model = load_model_weight(data, model_weight_url, model_arch)
+    interp = ClassificationInterpretation.from_learner(learn_model)
     ## 1. Test accuracy
-    preds, y = model.get_preds(ds_type=DatasetType.Valid)
+    preds, y = learn_model.get_preds(ds_type=DatasetType.Valid)
     print('Test accuracy = ', accuracy(preds, y).item())
     ## 2. Plot confusion matrix
     interp.plot_confusion_matrix(figsize=(11,11), dpi=60)
@@ -47,13 +47,17 @@ def model_options(predict=False, show_performance=False):
   
   elif show_performance == True:
     if model_option == 'Vgg16':
-      plot_interp(data, Vgg16_weight_url, models.vgg16_bn)
+      model = load_model_weight(data, Vgg16_weight_url, models.vgg16_bn)
+      plot_interp(model)
     elif model_option == 'Vgg19':
-      plot_interp(data, Vgg19_weight_url, models.vgg19_bn)
+      model = load_model_weight(data, Vgg19_weight_url, models.vgg19_bn)
+      plot_interp(model)
     elif model_option == 'ResNet18':
-      plot_interp(data, ResNet18_weight_url, models.resnet18)
+      model = load_model_weight(data, ResNet18_weight_url, models.resnet18)
+      plot_interp(model)
     elif model_option == 'ResNet34':
-      plot_interp(data, ResNet34_weight_url, models.resnet34)
+      model = load_model_weight(ResNet34_weight_url, models.resnet34)
+      plot_interp(model)
 
 @st.cache(ttl=3600, max_entries=10, allow_output_mutation=True)
 def get_data(Dataset_Zip_url):
@@ -64,9 +68,9 @@ def get_data(Dataset_Zip_url):
   return data
 
 @st.cache(ttl=3600, max_entries=10)
-def load_model_weight(data, model_weight_url, model_arch):
+def load_model_weight(dataset, model_weight_url, model_arch):
   gdown.download(model_weight_url, 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth', quiet=False)
-  model = cnn_learner(data, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
+  model = cnn_learner(dataset, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
 
 # Pages
@@ -140,4 +144,4 @@ elif page == 'Baseline Model Performance':
   data = get_data(DataZip_url)
   st.write("data classes: ", len(data.classes))
   # different model performance
-  #model_options(show_performance=True)
+  model_options(show_performance=True)
