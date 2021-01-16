@@ -88,6 +88,7 @@ def download_url():
     # path1 = './data/LastModelResnet50_v2_16.pth.tar'
     # path2 = './data/resnet50_captioning.pt'
     # print("I am here.")
+    '''
     if not os.path.exists(data_path):
       data_url = 'wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx" -O data.zip && rm -rf /tmp/cookies.txt'
       #data_url = 'wget -O ./data.zip https://docs.google.com/uc?export=download&confirm=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx
@@ -96,9 +97,9 @@ def download_url():
         os.system(data_url)
     else:
       st.write("Data is here.")
-
+    '''
     if not os.path.exists(model_weight_path):
-      model_url = 'wget -O ./model.pth https://docs.google.com/uc?export=download&confirm=1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf'
+      model_url = 'wget -O ./model.pth https://www.dropbox.com/s/343zi5e5b4qpf2m/vgg16-weights.pth?dl=0'
       st.write("Modeling...")
       with st.spinner('Downloading Model Weight'):
         os.system(model_url)
