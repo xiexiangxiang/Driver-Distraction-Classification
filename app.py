@@ -27,11 +27,13 @@ def plot_interp(learn_model):
     interp = ClassificationInterpretation.from_learner(learn_model)
     ## 1. Test accuracy
     preds, y = learn_model.get_preds(ds_type=DatasetType.Valid)
-    print('Test accuracy = ', accuracy(preds, y).item())
+    st.write('Test accuracy = ', accuracy(preds, y).item())
+    '''
     ## 2. Plot confusion matrix
     interp.plot_confusion_matrix(figsize=(11,11), dpi=60)
     ## 3. Visualise most wrongly predicted images
     interp.plot_top_losses(9, figsize=(15,11))
+    '''
   
 def model_options(predict=False, show_performance=False):
   model_option = st.radio('', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
@@ -138,10 +140,8 @@ elif page == 'Baseline Model Performance':
    **Test Accuracy,
    Confusion Matrix,
    Most Wronly Predicted Classes**
-   '''
-          )
+   ''')
   # get Data
   data = get_data(DataZip_url)
-  st.write("data classes: ", len(data.classes))
   # different model performance
   model_options(show_performance=True)
