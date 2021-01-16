@@ -8,6 +8,9 @@ import gdown # get data.zip & model.pth ## Due to *Large File Size*
 import zipfile as zf # extract data.zip
 import time
 
+import os
+import wget
+
 ## Funtions
 def predict_img(model_export_url, img, display_img):
   # Display Image
@@ -75,6 +78,29 @@ def load_model_weight(dataset, model_weight_url, model_arch):
   model = cnn_learner(dataset, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
 
+# try
+@st.cache
+def download_url():
+    data_path = './data.zip'
+    model_weight_path = './model.pth'
+    # Local
+    # path1 = './data/LastModelResnet50_v2_16.pth.tar'
+    # path2 = './data/resnet50_captioning.pt'
+    # print("I am here.")
+    if not os.path.exists(data_path):
+        data_url = 'wget -O ./data.zip https://docs.google.com/uc?export=download&confirm=1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx'
+        with st.spinner('Downloading Data...'):
+            os.system(data_url)
+    else:
+        st.write("Data is here.")
+
+    if not os.path.exists(path2):
+        model_url = 'wget -O ./model.pth https://docs.google.com/uc?export=download&confirm=1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf'
+        with st.spinner('Downloading Model Weight'):
+            os.system(model_url)
+    else:
+        st.write("Model Weight is here.")
+
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -141,12 +167,11 @@ elif page == 'Baseline Model Performance':
    Confusion Matrix,
    Most Wronly Predicted Classes**
    ''')
+  '''
   # get Data
   data = get_data(DataZip_url)
   st.write("data classes", len(data.classes))
-  vgg16_model = load_model_weight(data, Vgg16_weight_url, models.vgg16_bn)
-  if st.button("show"):
-    preds, y = vgg16_model.get_preds(ds_type=DatasetType.Valid)
-    st.write('Test accuracy = ', accuracy(preds, y).item())
+  '''
+  download_url()
   # different model performance
   #model_options(show_performance=True)
