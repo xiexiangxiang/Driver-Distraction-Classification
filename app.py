@@ -138,5 +138,6 @@ elif page == 'Baseline Model Performance':
           )
   # get Data
   data = get_data(DataZip_url)
+  print(len(data.classes))
   # different model performance
-  model_options(show_performance=True)
+  #model_options(show_performance=True)
