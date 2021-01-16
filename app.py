@@ -164,7 +164,7 @@ elif page == 'Baseline Model Performance':
   # get Data
   #data = get_data(DataZip_url)
   #st.write("data classes", len(data.classes))
-  load_model()
+  #load_model()
   with st.spinner("ING..."):
       from GD_download import download_file_from_google_drive
       download_file_from_google_drive("1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx", "data.zip")
@@ -172,5 +172,11 @@ elif page == 'Baseline Model Performance':
   path = 'AUC_Distracted_Driver_Dataset/Camera1/'
   data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
   st.write("Data classes: ", len(data.classes))
+  
+  download_file_from_google_drive("12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg", "AUC_Distracted_Driver_Dataset/Camera1/models/model.pth")
+  model = cnn_learner(data, models.vgg16_bn, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
+  if st.button("show"):
+    preds, y = model.get_preds(ds_type=DatasetType.Valid)
+    st.write('Test accuracy = ', accuracy(preds, y).item())
   # different model performance
   #model_options(show_performance=True)
