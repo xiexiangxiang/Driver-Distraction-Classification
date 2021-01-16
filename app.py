@@ -61,6 +61,34 @@ def model_options(predict=False, show_performance=False):
       model = load_model_weight(ResNet34_weight_url, models.resnet34)
       plot_interp(model)
 
+# ---
+# taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
+import requests
+
+def download_file_from_google_drive(id, destination):
+    URL = "https://docs.google.com/uc?export=download"
+    session = requests.Session()
+    response = session.get(URL, params = { 'id' : id }, stream = True)
+    token = get_confirm_token(response)
+    if token:
+        params = { 'id' : id, 'confirm' : token }
+        response = session.get(URL, params = params, stream = True)
+    save_response_content(response, destination)    
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            return value
+    return None
+
+def save_response_content(response, destination):
+    CHUNK_SIZE = 32768
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
+# ---
+      
 @st.cache(ttl=3600, max_entries=10, allow_output_mutation=True)
 def get_data(Dataset_Zip_url):
   gdown.download(Dataset_Zip_url, 'data.zip', quiet=False) # Load dataset zip
@@ -142,6 +170,7 @@ elif page == 'Baseline Model Performance':
    Most Wronly Predicted Classes**
    ''')
   # get Data
+  '''
   data = get_data(DataZip_url)
   st.write("data classes", len(data.classes))
   
@@ -151,5 +180,20 @@ elif page == 'Baseline Model Performance':
   if st.button("show"):
     preds, y = model.get_preds(ds_type=DatasetType.Valid)
     st.write('Test accuracy = ', accuracy(preds, y).item())
+  '''
   # different model performance
   #model_options(show_performance=True)
+  download_file_from_google_drive("1Hy9tdBjd7qOucIgIiMFYu9mb0_9ng6xx", "data.zip")
+  zf.ZipFile('data.zip').extractall() # After extract => Data Folder 'AUC_Distracted_Driver_Dataset' obtained
+  path = 'AUC_Distracted_Driver_Dataset/Camera1/'
+  data = ImageDataBunch.from_folder(path, train='train', valid='test', ds_tfms=get_transforms(do_flip=False), size=(223,433), bs=32).normalize(imagenet_stats)
+  st.write("data classes: " len(data.classes))
+  
+  download_file_from_google_drive("1BDFbhKcteZ95rBzhkpRjq1Cxy3f4PMXf", "AUC_Distracted_Driver_Dataset/Camera1/models/model.pth")
+  st.write("model weight downloaded")
+  if st.button("load model weight"):
+    model = cnn_learner(data, models.vgg16_bn, metrics=accuracy).load("/content/model_weight") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
+  st.write("model weight loaded")
+  if st.button("Find accuracy"):
+    preds, y = model.get_preds(ds_type=DatasetType.Valid)
+    st.write('Test accuracy = ', accuracy(preds, y).item())
