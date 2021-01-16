@@ -65,7 +65,7 @@ def get_data(Dataset_Zip_url):
 
 @st.cache(ttl=3600, max_entries=10)
 def load_model_weight(data, model_weight_url, model_arch):
-  gdown.download(model_weight_url, 'model.pth', quiet=False)
+  gdown.download(model_weight_url, 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth', quiet=False)
   model = cnn_learner(data, model_arch, metrics=accuracy).load("model") # path => 'AUC_Distracted_Driver_Dataset/Camera1/models/model.pth'
   return model
 
