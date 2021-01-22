@@ -31,45 +31,18 @@ def model_options(predict=False, show_performance=False):
     elif model_option == 'ResNet34':
       predict_img(ResNet34_export_url, img, display_img)
   elif show_performance == True:
-    link = '[Google Colab](https://drive.google.com/file/d/1NfMrSk25HBwjGsLYctjPFLojg5UWDMyo/view?usp=sharing)'
+    link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
     st.markdown(link, unsafe_allow_html=True)
 
-# ---
-# taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
-import requests
-
-def download_file_from_google_drive(id, destination):
-    URL = "https://docs.google.com/uc?export=download"
-    session = requests.Session()
-    response = session.get(URL, params = { 'id' : id }, stream = True)
-    token = get_confirm_token(response)
-    if token:
-        params = { 'id' : id, 'confirm' : token }
-        response = session.get(URL, params = params, stream = True)
-    save_response_content(response, destination)    
-
-def get_confirm_token(response):
-    for key, value in response.cookies.items():
-        if key.startswith('download_warning'):
-            return value
-    return None
-
-def save_response_content(response, destination):
-    CHUNK_SIZE = 32768
-    with open(destination, "wb") as f:
-        for chunk in response.iter_content(CHUNK_SIZE):
-            if chunk: # filter out keep-alive new chunks
-                f.write(chunk)
-  
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Baseline Model Performance'])
 #st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Model Export URL -- urllib.request
-Vgg16_export_url = "https://drive.google.com/uc?export=download&id=12zOXR8qUdnjsc4JvwMHfj4Pq7_fS1Hsg"
-Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1hVShpb9k2o3hLqY2x4ShQ_jR5Uqb1Bjo"
-ResNet18_export_url = "https://drive.google.com/uc?export=download&id=1sNmlieI8bJB6yGyOTgj-r5mGhKBbrltd"
-ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1r8ohh3cLc1dKP7bLW_OZMfeBDAj0Ugxh"
+Vgg16_export_url = "https://drive.google.com/uc?export=download&id=1qPWKfHgkUQVsccgrkB769iNuvy32Nqrn"
+Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1AwSnWOyEr634uynzES0A4UvJfScOjgnk"
+ResNet18_export_url = "https://drive.google.com/uc?export=download&id=10WIqVP9sADfTstn1shDOO6PNplwhVvOh"
+ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1366mTUbh1WGVLqPwPp4mCeBpeAJiQrik"
 
 ## Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
