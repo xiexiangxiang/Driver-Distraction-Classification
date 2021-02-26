@@ -81,7 +81,7 @@ if page == 'Baseline Model Prediction':
     # different model prediction
     model_options(predict=True)
   else:
-  st.write('''### Please upload a picture for one of these distracted driver behaviour''')
+    col1.write('''### Please upload a picture for one of these distracted driver behaviour''')
     Uploaded = col1.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       img = open_image(Uploaded)
