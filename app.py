@@ -52,11 +52,10 @@ ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiW
 if page == 'Baseline Model Prediction':
   link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   st.title("Baseline CNNs Driver Distraction Classification")
+  st.markdown(link, unsafe_allow_html=True)
   st.write('''
   ---
-  ## ** Classify 10 types of distracted driver behaviour **''', st.markdown(link, unsafe_allow_html=True))
-  st.write('''
-  ---
+  ## ** Classify 10 types of distracted driver behaviour **
   ### **c0: Safe Driving, 
    c1: Texting - Right, 
    c2: Talking on the Phone - Right, 
@@ -69,7 +68,7 @@ if page == 'Baseline Model Prediction':
    c9: Talking to Passenger**
   ''')
   # create 2 columns structure
-  col1,col2 = st.beta_columns(1,2) # 2nd column is 2 times of 1st column
+  col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
 
   # 1st column - Try test image / Upload image
   option = col1.radio('', ['Try a test image', 'Upload image'])
