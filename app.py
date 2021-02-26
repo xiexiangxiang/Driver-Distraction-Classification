@@ -19,16 +19,24 @@ def predict_img(model_export_url, img, display_img):
     st.write(probs,'%')
   
 def model_options(predict=False):
-  model_option = col1.radio('Choose a model:', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
+  model_option = col1.radio('Choose a model:', ['Vgg16', 'Vgg16_b', 'Vgg19','Vgg19_b', 'ResNet18', 'ResNet18_b', 'ResNet34', 'ResNet34_b'])
   if predict == True:
     if model_option == 'Vgg16':
       predict_img(Vgg16_export_url, img, display_img)
+    elif model_option == 'Vgg16_b':
+      predict_img(Vgg16_b_export_url, img, display_img)
     elif model_option == 'Vgg19':
       predict_img(Vgg19_export_url, img, display_img)
+    elif model_option == 'Vgg19_b':
+      predict_img(Vgg19_b_export_url, img, display_img)
     elif model_option == 'ResNet18':
       predict_img(ResNet18_export_url, img, display_img)
+    elif model_option == 'ResNet18_b':
+      predict_img(ResNet18_b_export_url, img, display_img)
     elif model_option == 'ResNet34':
       predict_img(ResNet34_export_url, img, display_img)
+    elif model_option == 'ResNet34_b':
+      predict_img(ResNet34_b_export_url, img, display_img)
 
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Ensemble Model Prediction'])
@@ -82,7 +90,7 @@ if page == 'Baseline Model Prediction':
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       # create 2 columns structure
-      col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
+      col1,col2 = st.beta_columns([1,2])
       img = open_image(Uploaded)
       display_img = Uploaded
       model_options(predict=True)
