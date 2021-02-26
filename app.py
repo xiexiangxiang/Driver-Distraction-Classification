@@ -54,9 +54,10 @@ if page == 'Baseline Model Prediction':
   st.title("Baseline CNNs Driver Distraction Classification")
   st.write('''
   ---
-  ## ** Classify 10 types of distracted driver behaviour **''', st.markdown(link, unsafe_allow_html=True),
+  ## ** Classify 10 types of distracted driver behaviour **''', st.markdown(link, unsafe_allow_html=True))
+  st.write('''
   ---
-  ''' ### **c0: Safe Driving, 
+  ### **c0: Safe Driving, 
    c1: Texting - Right, 
    c2: Talking on the Phone - Right, 
    c3: Texting - Left, 
