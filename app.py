@@ -67,23 +67,23 @@ if page == 'Baseline Model Prediction':
   st.write('''---''')
   
   # Try test image / Upload image
-  option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload image'], 1)
+  option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload image'], 0)
   
   if option == 'Try a test image':
+    # create 2 columns structure
+    col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
     test_imgs = os.listdir('test-image/')
     test_img = col1.selectbox('Select a test image:', test_imgs)
     file_path = 'test-image/' + test_img
     img = open_image(file_path)
-    # create 2 columns structure
-    col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
     display_img = mpimg.imread(file_path)
     model_options(predict=True)
   else:
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
-      img = open_image(Uploaded)
       # create 2 columns structure
       col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
+      img = open_image(Uploaded)
       display_img = Uploaded
       model_options(predict=True)
 
