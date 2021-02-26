@@ -18,6 +18,7 @@ def predict_img(model_export_url, img, display_img):
     model = load_learner(Path("."), "model.pkl")
     pred, pred_idx, probs = model.predict(img)
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
+    st.write(probs,'%')
   
 def model_options(predict=False, show_performance=False):
   model_option = st.radio('', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
@@ -39,10 +40,15 @@ page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Base
 #st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Model Export URL -- urllib.request
-Vgg16_export_url = "https://drive.google.com/uc?export=download&id=1qPWKfHgkUQVsccgrkB769iNuvy32Nqrn"
-Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1AwSnWOyEr634uynzES0A4UvJfScOjgnk"
-ResNet18_export_url = "https://drive.google.com/uc?export=download&id=10WIqVP9sADfTstn1shDOO6PNplwhVvOh"
-ResNet34_export_url = "https://drive.google.com/uc?export=download&id=1366mTUbh1WGVLqPwPp4mCeBpeAJiQrik"
+Vgg16_export_url = "https://drive.google.com/uc?export=download&id=1jiRNwi2e_kfh4i8PXPun0Zbo_XLgz1lp"
+Vgg19_export_url = "https://drive.google.com/uc?export=download&id=1qFyLokQD_AmhQEiJwAjo4gF0wfBZoh2a"
+ResNet18_export_url = "https://drive.google.com/uc?export=download&id=1mQzySjxlfZdzW88UrM74pQ_duLY67k2a"
+ResNet34_export_url = "https://drive.google.com/uc?export=download&id=16vDbA-yqcRBGwk_QEcLJcixn8TBYmGLT"
+
+Vgg16_b_export_url = "https://drive.google.com/uc?export=download&id=1hmuOsHrkcKbe3doKGage7UBKgy9Xd9_Z"
+Vgg19_b_export_url = "https://drive.google.com/uc?export=download&id=1O83NNtBBZ4mH4p4kw5dPXDNPwuFoxBgn"
+ResNet18_b_export_url = "https://drive.google.com/uc?export=download&id=1QrZ8XMtqoKqAAMcAEfP14YsM1E4s5A5f"
+ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiWn1YV9hnJhLTpSe1ug_yka6u6t"
 
 ## Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
