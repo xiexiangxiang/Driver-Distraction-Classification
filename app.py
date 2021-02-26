@@ -12,7 +12,8 @@ def predict_img(model_export_url, img, display_img):
   col2.image(display_img, use_column_width=True)
   # Model Loading & Prediction
   if col2.button("Analyse"):
-    col2.spinner('Loading...')
+    with st.spinner('Loading...'):
+      time.sleep(5)
     urllib.request.urlretrieve(model_export_url, "model.pkl")
     model = load_learner(Path("."), "model.pkl")
     pred, pred_idx, probs = model.predict(img)
