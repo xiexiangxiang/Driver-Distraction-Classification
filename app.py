@@ -10,8 +10,6 @@ import time
 def predict_img(model_export_url, img, display_img):
   # Display Image
   col2.image(display_img, use_column_width=True)
-  with col2.spinner('Loading...'):
-        time.sleep(3)
   # Model Loading & Prediction
   if col2.button("Analyse"):
     urllib.request.urlretrieve(model_export_url, "model.pkl")
@@ -50,13 +48,11 @@ ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiW
 ## Page - Baseline Model Prediction
 
 if page == 'Baseline Model Prediction':
-  link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   st.title("Baseline CNNs Driver Distraction Classification")
-  st.markdown(link, unsafe_allow_html=True)
   st.write('''
   ---
   ## ** Classify 10 types of distracted driver behaviour **
-  ### **c0: Safe Driving, 
+  **c0: Safe Driving, 
    c1: Texting - Right, 
    c2: Talking on the Phone - Right, 
    c3: Texting - Left, 
@@ -66,15 +62,18 @@ if page == 'Baseline Model Prediction':
    c7: Reaching Behind, 
    c8: Hair or Makeup, 
    c9: Talking to Passenger**
+  ---
   ''')
+  link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
+  st.markdown(link, unsafe_allow_html=True)
   # create 2 columns structure
   col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
 
   # 1st column - Try test image / Upload image
-  option = col1.radio('', ['Try a test image', 'Upload image'])
+  option = st.radio('', ['Try a test image', 'Upload image'])
   if option == 'Try a test image':
     test_imgs = os.listdir('test-image/')
-    test_img = col1.selectbox('Please select a test image:', test_imgs)
+    test_img = st.selectbox('Please select a test image:', test_imgs)
     file_path = 'test-image/' + test_img
     img = open_image(file_path)
     display_img = mpimg.imread(file_path)
@@ -82,7 +81,7 @@ if page == 'Baseline Model Prediction':
     model_options(predict=True)
   else:
     col1.write('''### Please upload a picture for one of these distracted driver behaviour''')
-    Uploaded = col1.file_uploader('', type=['png','jpg','jpeg'])
+    Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       img = open_image(Uploaded)
       display_img = Uploaded
