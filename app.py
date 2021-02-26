@@ -67,7 +67,7 @@ if page == 'Baseline Model Prediction':
   st.write('''---''')
   
   # Try test image / Upload image
-  option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload image'], 0)
+  option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload an image'])
   
   if option == 'Try a test image':
     # create 2 columns structure
