@@ -19,7 +19,7 @@ def predict_img(model_export_url, img, display_img):
     st.write(probs,'%')
   
 def model_options(predict=False):
-  model_option = col1.radio('', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
+  model_option = col1.radio('Choose a model:', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
   if predict == True:
     if model_option == 'Vgg16':
       predict_img(Vgg16_export_url, img, display_img)
@@ -48,9 +48,8 @@ ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiW
 ## Page - Baseline Model Prediction
 
 if page == 'Baseline Model Prediction':
-  st.title("Baseline CNNs Driver Distraction Classification")
+  st.title("Baseline Driver Distraction Classification")
   st.write('''
-  ---
   ## ** Classify 10 types of distracted driver behaviour **
    c0: Safe Driving, 
    c1: Texting - Right, 
@@ -65,26 +64,27 @@ if page == 'Baseline Model Prediction':
   ''')
   link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   st.markdown(link, unsafe_allow_html=True)
+  st.write('''---''')
+  
   # Try test image / Upload image
-  option = st.radio('', ['Try a test image', 'Upload image'])
-  # create 2 columns structure
-  col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
+  option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload image'], 1)
   
   if option == 'Try a test image':
     test_imgs = os.listdir('test-image/')
-    test_img = st.selectbox('Please select a test image:', test_imgs)
+    test_img = col1.selectbox('Select a test image:', test_imgs)
     file_path = 'test-image/' + test_img
     img = open_image(file_path)
+    # create 2 columns structure
+    col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
     display_img = mpimg.imread(file_path)
-    # different model prediction
     model_options(predict=True)
   else:
-    col1.write('''### Please upload a picture for one of these distracted driver behaviour''')
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       img = open_image(Uploaded)
+      # create 2 columns structure
+      col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
       display_img = Uploaded
-      # different model prediction
       model_options(predict=True)
 
 ## Page - Ensemble Model Prediction
