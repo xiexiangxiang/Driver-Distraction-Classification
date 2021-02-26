@@ -15,8 +15,8 @@ def predict_img(model_export_url, img, display_img):
     urllib.request.urlretrieve(model_export_url, "model.pkl")
     model = load_learner(Path("."), "model.pkl")
     pred, pred_idx, probs = model.predict(img)
-    col2.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
-    col2.write(probs,'%')
+    st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
+    st.write(probs,'%')
   
 def model_options(predict=False):
   model_option = col1.radio('', ['Vgg16', 'Vgg19', 'ResNet18', 'ResNet34'])
@@ -52,7 +52,7 @@ if page == 'Baseline Model Prediction':
   st.write('''
   ---
   ## ** Classify 10 types of distracted driver behaviour **
-  **c0: Safe Driving, 
+   c0: Safe Driving, 
    c1: Texting - Right, 
    c2: Talking on the Phone - Right, 
    c3: Texting - Left, 
@@ -61,16 +61,15 @@ if page == 'Baseline Model Prediction':
    c6: Drinking, 
    c7: Reaching Behind, 
    c8: Hair or Makeup, 
-   c9: Talking to Passenger**
-  ---
+   c9: Talking to Passenger
   ''')
   link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   st.markdown(link, unsafe_allow_html=True)
+  # Try test image / Upload image
+  option = st.radio('', ['Try a test image', 'Upload image'])
   # create 2 columns structure
   col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
-
-  # 1st column - Try test image / Upload image
-  option = st.radio('', ['Try a test image', 'Upload image'])
+  
   if option == 'Try a test image':
     test_imgs = os.listdir('test-image/')
     test_img = st.selectbox('Please select a test image:', test_imgs)
