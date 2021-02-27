@@ -180,7 +180,8 @@ if page == 'Baseline Model Prediction':
   ''')
   link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
-  st.markdown(link1, link2, unsafe_allow_html=True)
+  st.markdown(link1, unsafe_allow_html=True)
+  st.markdown(link2, unsafe_allow_html=True)
   st.write('''---''')
   
   # Try test image / Upload image
@@ -196,7 +197,8 @@ elif page == 'Ensemble Model Prediction':
   st.write('''## ** Top 5 Ensemble CNN Models **''')
   link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
-  st.markdown(link1, link2, unsafe_allow_html=True)
+  st.markdown(link1, unsafe_allow_html=True)
+  st.markdown(link2, unsafe_allow_html=True)
   st.write('''---''')
   option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload an image'])
   if option == 'Try a test image':
