@@ -7,7 +7,7 @@ import matplotlib.image as mpimg
 import time
 
 ## Funtions
-def predict_img(model_export_url, img, display_img):
+def predict_img(col2, model_export_url, img, display_img):
   # Display Image
   col2.image(display_img, use_column_width=True)
   # Model Loading & Prediction
@@ -20,25 +20,25 @@ def predict_img(model_export_url, img, display_img):
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
     st.write(probs,'%')
   
-def base_model_options(col1, img, display_img, predict=False):
+def base_model_options(col1, col2, img, display_img, predict=False):
   model_option = col1.radio('Choose a model:', ['Vgg16', 'Vgg16_b', 'Vgg19','Vgg19_b', 'ResNet18', 'ResNet18_b', 'ResNet34', 'ResNet34_b'])
   if predict == True:
     if model_option == 'Vgg16':
-      predict_img(Vgg16_export_url, img, display_img)
+      predict_img(col2, Vgg16_export_url, img, display_img)
     elif model_option == 'Vgg16_b':
-      predict_img(Vgg16_b_export_url, img, display_img)
+      predict_img(col2, Vgg16_b_export_url, img, display_img)
     elif model_option == 'Vgg19':
-      predict_img(Vgg19_export_url, img, display_img)
+      predict_img(col2, Vgg19_export_url, img, display_img)
     elif model_option == 'Vgg19_b':
-      predict_img(Vgg19_b_export_url, img, display_img)
+      predict_img(col2, Vgg19_b_export_url, img, display_img)
     elif model_option == 'ResNet18':
-      predict_img(ResNet18_export_url, img, display_img)
+      predict_img(col2, ResNet18_export_url, img, display_img)
     elif model_option == 'ResNet18_b':
-      predict_img(ResNet18_b_export_url, img, display_img)
+      predict_img(col2, ResNet18_b_export_url, img, display_img)
     elif model_option == 'ResNet34':
-      predict_img(ResNet34_export_url, img, display_img)
+      predict_img(col2, ResNet34_export_url, img, display_img)
     elif model_option == 'ResNet34_b':
-      predict_img(ResNet34_b_export_url, img, display_img)
+      predict_img(col2, ResNet34_b_export_url, img, display_img)
 
 def input_image(try_test_image=False, upload_image=False):
   if try_test_image == True:
@@ -49,14 +49,14 @@ def input_image(try_test_image=False, upload_image=False):
     file_path = 'test-image/' + test_img
     img = open_image(file_path)
     display_img = mpimg.imread(file_path)
-    base_model_options(col1, img, display_img, predict=True)
+    base_model_options(col1, col2, img, display_img, predict=True)
   elif upload_image == True:
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       col1,col2 = st.beta_columns([1,2])
       img = open_image(Uploaded)
       display_img = Uploaded
-      base_model_options(col1, img, display_img, predict=True)
+      base_model_options(col1, col2, img, display_img, predict=True)
 
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Ensemble Model Prediction'])
