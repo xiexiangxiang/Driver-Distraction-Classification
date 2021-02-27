@@ -70,6 +70,7 @@ def ensemble_model_options(col1, col2, img):
     elif model_option == 'Vgg16 + Vgg19':
       st.write('.')
     elif model_option == 'Vgg19 + ResNet18_b':
+      st.write('.')
       
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False):
   if try_test_image == True:
