@@ -20,7 +20,7 @@ def predict_img(model_export_url, img, display_img):
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
     st.write(probs,'%')
   
-def model_options(predict=False):
+def base_model_options(predict=False):
   model_option = col1.radio('Choose a model:', ['Vgg16', 'Vgg16_b', 'Vgg19','Vgg19_b', 'ResNet18', 'ResNet18_b', 'ResNet34', 'ResNet34_b'])
   if predict == True:
     if model_option == 'Vgg16':
@@ -40,6 +40,25 @@ def model_options(predict=False):
     elif model_option == 'ResNet34_b':
       predict_img(ResNet34_b_export_url, img, display_img)
 
+def input_image(try_test_image=False, upload_image=False):
+  if try_test_image == True:
+    # create 2 columns structure
+    col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
+    test_imgs = os.listdir('test-image/')
+    test_img = col1.selectbox('Select a test image:', test_imgs)
+    file_path = 'test-image/' + test_img
+    img = open_image(file_path)
+    display_img = mpimg.imread(file_path)
+    base_model_options(predict=True)
+  elif upload_image == True:
+    Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
+    if Uploaded is not None:
+      # create 2 columns structure
+      col1,col2 = st.beta_columns([1,2])
+      img = open_image(Uploaded)
+      display_img = Uploaded
+      base_model_options(predict=True)
+
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Ensemble Model Prediction'])
 #st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -55,8 +74,7 @@ Vgg19_b_export_url = "https://drive.google.com/uc?export=download&id=1O83NNtBBZ4
 ResNet18_b_export_url = "https://drive.google.com/uc?export=download&id=1QrZ8XMtqoKqAAMcAEfP14YsM1E4s5A5f"
 ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiWn1YV9hnJhLTpSe1ug_yka6u6t"
 
-## Page - Baseline Model Prediction
-
+## 1. Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
   st.title("Baseline Driver Distraction Classification")
   st.write('''
@@ -78,25 +96,22 @@ if page == 'Baseline Model Prediction':
   
   # Try test image / Upload image
   option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload an image'])
-  
   if option == 'Try a test image':
-    # create 2 columns structure
-    col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
-    test_imgs = os.listdir('test-image/')
-    test_img = col1.selectbox('Select a test image:', test_imgs)
-    file_path = 'test-image/' + test_img
-    img = open_image(file_path)
-    display_img = mpimg.imread(file_path)
-    model_options(predict=True)
+    input_image(try_test_image=True)
   else:
-    Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
-    if Uploaded is not None:
-      # create 2 columns structure
-      col1,col2 = st.beta_columns([1,2])
-      img = open_image(Uploaded)
-      display_img = Uploaded
-      model_options(predict=True)
+    input_image(upload_image=True)
 
-## Page - Ensemble Model Prediction
+## 2. Page - Ensemble Model Prediction
 elif page == 'Ensemble Model Prediction':
-  st.write("...")
+  st.title("Ensemble Driver Distraction Classification")
+  st.write('''
+  ## ** Top 5 Ensemble CNN Models **
+   1. Vgg16 + Vgg19 + ResNet18_b, 
+   2: Vgg16_b + Vgg19_b + ResNet18_b, 
+   3: Vgg16 + Vgg19 + ResNet18_b + ResNet34_b, 
+   4: Vgg16 + Vgg19, 
+   5: Vgg19 + ResNet18_b, 
+  ''')
+  st.markdown(link, unsafe_allow_html=True)
+  st.write('''---''')
+  
