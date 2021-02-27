@@ -15,7 +15,7 @@ def predict_img(col2, model_export_url, img):
     urllib.request.urlretrieve(model_export_url, "model.pkl")
     model = load_learner(Path("."), "model.pkl")
     pred, pred_idx, probs = model.predict(img)
-    st.write("Model Prediction: ", predst.item(), "; Probability: ", probs[pred_idx].item()*100,'%')
+    st.write("Model Prediction: ", pred.item(), "; Probability: ", probs[pred_idx].item()*100,'%')
     st.write(probs,'%')
  
 def base_model_options(col1, col2, img, predict=False):
