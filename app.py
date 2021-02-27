@@ -178,8 +178,9 @@ if page == 'Baseline Model Prediction':
    c8: Hair or Makeup, 
    c9: Talking to Passenger
   ''')
-  link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
-  st.markdown(link, unsafe_allow_html=True)
+  link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
+  link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
+  st.markdown(link1, link2, unsafe_allow_html=True)
   st.write('''---''')
   
   # Try test image / Upload image
@@ -193,8 +194,9 @@ if page == 'Baseline Model Prediction':
 elif page == 'Ensemble Model Prediction':
   st.title("Ensemble Driver Distraction Classification")
   st.write('''## ** Top 5 Ensemble CNN Models **''')
-  link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
-  st.markdown(link, unsafe_allow_html=True)
+  link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
+  link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
+  st.markdown(link1, link2, unsafe_allow_html=True)
   st.write('''---''')
   option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload an image'])
   if option == 'Try a test image':
