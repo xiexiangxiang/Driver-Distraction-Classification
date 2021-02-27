@@ -192,14 +192,7 @@ if page == 'Baseline Model Prediction':
 ## 2. Page - Ensemble Model Prediction
 elif page == 'Ensemble Model Prediction':
   st.title("Ensemble Driver Distraction Classification")
-  st.write('''
-  ## ** Top 5 Ensemble CNN Models **
-   1. Vgg16 + Vgg19 + ResNet18_b, 
-   2: Vgg16_b + Vgg19_b + ResNet18_b, 
-   3: Vgg16 + Vgg19 + ResNet18_b + ResNet34_b, 
-   4: Vgg16 + Vgg19, 
-   5: Vgg19 + ResNet18_b, 
-  ''')
+  st.write('''## ** Top 5 Ensemble CNN Models **''')
   link = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   st.markdown(link, unsafe_allow_html=True)
   st.write('''---''')
