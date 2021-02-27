@@ -37,22 +37,6 @@ def base_model_options(col1, col2, img, predict=False):
       predict_img(col2, ResNet34_export_url, img)
     elif model_option == 'ResNet34_b':
       predict_img(col2, ResNet34_b_export_url, img)
-
-@st.cache(allow_output_mutation=True)
-def load_models():
-  urllib.request.urlretrieve(Vgg16_export_url, "Vgg16.pkl")
-  urllib.request.urlretrieve(Vgg16_b_export_url, "Vgg16_b.pkl")
-  urllib.request.urlretrieve(Vgg19_export_url, "Vgg19.pkl")
-  urllib.request.urlretrieve(Vgg19_b_export_url, "Vgg19_b.pkl")
-  urllib.request.urlretrieve(ResNet18_b_export_url, "ResNet18_b.pkl")
-  urllib.request.urlretrieve(ResNet34_b_export_url, "ResNet34_b.pkl")
-  Vgg16 = load_learner(Path("."), "Vgg16.pkl")
-  Vgg16_b = load_learner(Path("."), "Vgg16_b.pkl")
-  Vgg19 = load_learner(Path("."), "Vgg19.pkl")
-  Vgg19_b = load_learner(Path("."), "Vgg19_b.pkl")
-  ResNet18_b = load_learner(Path("."), "ResNet18_b.pkl")
-  ResNet34_b = load_learner(Path("."), "ResNet34_b.pkl")
-  return Vgg16, Vgg16_b, Vgg19, Vgg19_b, ResNet18_b, ResNet34_b
       
 def ensemble_model_options(col1, col2, img):
   model_option = col1.radio('Choose a model:', ['Vgg16 + Vgg19 + ResNet18_b', 
@@ -60,7 +44,7 @@ def ensemble_model_options(col1, col2, img):
                                                 'Vgg16 + Vgg19 + ResNet18_b + ResNet34_b',
                                                 'Vgg16 + Vgg19', 
                                                 'Vgg19 + ResNet18_b'])
-  Vgg16, Vgg16_b, Vgg19, Vgg19_b, ResNet18_b, ResNet34_b = load_models()
+  # Vgg16, Vgg16_b, Vgg19, Vgg19_b, ResNet18_b, ResNet34_b = load_models()
   if model_option == 'Vgg16 + Vgg19 + ResNet18_b':
     if col2.button("Analyse"):
       with st.spinner('Loading...'):
@@ -71,14 +55,37 @@ def ensemble_model_options(col1, col2, img):
       avg_probs = (probs1 + probs2 + probs3)/3
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
       st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
+      
     elif model_option == 'Vgg16_b + Vgg19_b + ResNet18_b':
-      st.write('.')
+      _, __, probs1 = Vgg16_b.predict(img)
+      _, __, probs2 = Vgg19_b.predict(img)
+      _, __, probs3 = ResNet18_b.predict(img)
+      avg_probs = (probs1 + probs2 + probs3)/3
+      ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
+      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
+      
     elif model_option == 'Vgg16 + Vgg19 + ResNet18_b + ResNet34_b':
-      st.write('.')
+      _, __, probs1 = Vgg16.predict(img)
+      _, __, probs2 = Vgg19.predict(img)
+      _, __, probs3 = ResNet18_b.predict(img)
+      _, __, probs4 = ResNet34_b.predict(img)
+      avg_probs = (probs1 + probs2 + probs3 + probs4)/4
+      ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
+      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
+      
     elif model_option == 'Vgg16 + Vgg19':
-      st.write('.')
+      _, __, probs1 = Vgg16.predict(img)
+      _, __, probs2 = Vgg19.predict(img)
+      avg_probs = (probs1 + probs2)/2
+      ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
+      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
+      
     elif model_option == 'Vgg19 + ResNet18_b':
-      st.write('.')
+      _, __, probs1 = Vgg19.predict(img)
+      _, __, probs2 = ResNet18_b.predict(img)
+      avg_probs = (probs1 + probs2)/2
+      ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
+      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')   
       
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False):
   if try_test_image == True:
@@ -110,6 +117,26 @@ def input_image(try_test_image=False, upload_image=False, base_model=False, ense
       elif ensemble_model==True:
         ensemble_model_options(col1, col2, img)
 
+@st.cache(allow_output_mutation=True)
+def load_models():
+  urllib.request.urlretrieve(Vgg16_export_url, "Vgg16.pkl")
+  urllib.request.urlretrieve(Vgg16_b_export_url, "Vgg16_b.pkl")
+  urllib.request.urlretrieve(Vgg19_export_url, "Vgg19.pkl")
+  urllib.request.urlretrieve(Vgg19_b_export_url, "Vgg19_b.pkl")
+  urllib.request.urlretrieve(ResNet18_export_url, "ResNet18.pkl")
+  urllib.request.urlretrieve(ResNet18_b_export_url, "ResNet18_b.pkl")
+  urllib.request.urlretrieve(ResNet34_export_url, "ResNet34.pkl")
+  urllib.request.urlretrieve(ResNet34_b_export_url, "ResNet34_b.pkl")
+  Vgg16 = load_learner(Path("."), "Vgg16.pkl")
+  Vgg16_b = load_learner(Path("."), "Vgg16_b.pkl")
+  Vgg19 = load_learner(Path("."), "Vgg19.pkl")
+  Vgg19_b = load_learner(Path("."), "Vgg19_b.pkl")
+  ResNet18 = load_learner(Path("."), "ResNet18.pkl")
+  ResNet18_b = load_learner(Path("."), "ResNet18_b.pkl")
+  ResNet34 = load_learner(Path("."), "ResNet34.pkl")
+  ResNet34_b = load_learner(Path("."), "ResNet34_b.pkl")
+  return Vgg16, Vgg16_b, Vgg19, Vgg19_b, ResNet18, ResNet18_b, ResNet34, ResNet34_b
+
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Ensemble Model Prediction'])
 #st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -124,6 +151,8 @@ Vgg16_b_export_url = "https://drive.google.com/uc?export=download&id=1hmuOsHrkcK
 Vgg19_b_export_url = "https://drive.google.com/uc?export=download&id=1O83NNtBBZ4mH4p4kw5dPXDNPwuFoxBgn"
 ResNet18_b_export_url = "https://drive.google.com/uc?export=download&id=1QrZ8XMtqoKqAAMcAEfP14YsM1E4s5A5f"
 ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiWn1YV9hnJhLTpSe1ug_yka6u6t"
+
+Vgg16, Vgg16_b, Vgg19, Vgg19_b, ResNet18, ResNet18_b, ResNet34, ResNet34_b = load_models()
 
 ## 1. Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
