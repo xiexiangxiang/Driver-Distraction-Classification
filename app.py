@@ -20,7 +20,7 @@ def predict_img(model_export_url, img, display_img):
     st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx]*100,'%')
     st.write(probs,'%')
   
-def base_model_options(img, display_img, predict=False):
+def base_model_options(col1, img, display_img, predict=False):
   model_option = col1.radio('Choose a model:', ['Vgg16', 'Vgg16_b', 'Vgg19','Vgg19_b', 'ResNet18', 'ResNet18_b', 'ResNet34', 'ResNet34_b'])
   if predict == True:
     if model_option == 'Vgg16':
@@ -49,14 +49,14 @@ def input_image(try_test_image=False, upload_image=False):
     file_path = 'test-image/' + test_img
     img = open_image(file_path)
     display_img = mpimg.imread(file_path)
-    base_model_options(img, display_img, predict=True)
+    base_model_options(col1, img, display_img, predict=True)
   elif upload_image == True:
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
       col1,col2 = st.beta_columns([1,2])
       img = open_image(Uploaded)
       display_img = Uploaded
-      base_model_options(img, display_img, predict=True)
+      base_model_options(col1, img, display_img, predict=True)
 
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Ensemble Model Prediction'])
