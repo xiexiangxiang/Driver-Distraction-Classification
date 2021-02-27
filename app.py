@@ -15,7 +15,7 @@ def predict_img(col2, model_export_url, img):
     urllib.request.urlretrieve(model_export_url, "model.pkl")
     model = load_learner(Path("."), "model.pkl")
     pred, pred_idx, probs = model.predict(img)
-    st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx].item()*100,'%')
+    st.write("Model Prediction: ", predst.item(), "; Probability: ", probs[pred_idx].item()*100,'%')
     st.write(probs,'%')
  
 def base_model_options(col1, col2, img, predict=False):
@@ -72,7 +72,7 @@ def ensemble_model_options(col1, col2, img):
       _, __, probs3 = ResNet18_b.predict(img)
       avg_probs = (probs1 + probs2 + probs3)/3
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
-      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob.item()*100,'%')
+      st.write("Model Prediction: C", ensemble_idx.item(), "; Probability: ", ensemble_prob.item()*100,'%')
       st.write(avg_probs,'%')
       
   elif model_option == 'Vgg16_b + Vgg19_b + ResNet18_b':
@@ -84,7 +84,7 @@ def ensemble_model_options(col1, col2, img):
       _, __, probs3 = ResNet18_b.predict(img)
       avg_probs = (probs1 + probs2 + probs3)/3
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
-      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob.item()*100,'%')
+      st.write("Model Prediction: C", ensemble_idx.item(), "; Probability: ", ensemble_prob.item()*100,'%')
       st.write(avg_probs,'%')
       
   elif model_option == 'Vgg16 + Vgg19 + ResNet18_b + ResNet34_b':
@@ -97,7 +97,7 @@ def ensemble_model_options(col1, col2, img):
       _, __, probs4 = ResNet34_b.predict(img)
       avg_probs = (probs1 + probs2 + probs3 + probs4)/4
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
-      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob.item()*100,'%')
+      st.write("Model Prediction: C", ensemble_idx.item(), "; Probability: ", ensemble_prob.item()*100,'%')
       st.write(avg_probs,'%')
       
   elif model_option == 'Vgg16 + Vgg19':
@@ -108,7 +108,7 @@ def ensemble_model_options(col1, col2, img):
       _, __, probs2 = Vgg19.predict(img)
       avg_probs = (probs1 + probs2)/2
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
-      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob.item()*100,'%')
+      st.write("Model Prediction: C", ensemble_idx.item(), "; Probability: ", ensemble_prob.item()*100,'%')
       st.write(avg_probs,'%')
       
   elif model_option == 'Vgg19 + ResNet18_b':
@@ -119,7 +119,7 @@ def ensemble_model_options(col1, col2, img):
       _, __, probs2 = ResNet18_b.predict(img)
       avg_probs = (probs1 + probs2)/2
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
-      st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob.item()*100,'%')
+      st.write("Model Prediction: C", ensemble_idx.item(), "; Probability: ", ensemble_prob.item()*100,'%')
       st.write(avg_probs,'%')
       
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False):
