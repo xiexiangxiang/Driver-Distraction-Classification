@@ -56,7 +56,10 @@ def ensemble_model_options(col1, col2, img):
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
       st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
       
-    elif model_option == 'Vgg16_b + Vgg19_b + ResNet18_b':
+  elif model_option == 'Vgg16_b + Vgg19_b + ResNet18_b':
+    if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
       _, __, probs1 = Vgg16_b.predict(img)
       _, __, probs2 = Vgg19_b.predict(img)
       _, __, probs3 = ResNet18_b.predict(img)
@@ -64,7 +67,10 @@ def ensemble_model_options(col1, col2, img):
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
       st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
       
-    elif model_option == 'Vgg16 + Vgg19 + ResNet18_b + ResNet34_b':
+  elif model_option == 'Vgg16 + Vgg19 + ResNet18_b + ResNet34_b':
+    if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
       _, __, probs1 = Vgg16.predict(img)
       _, __, probs2 = Vgg19.predict(img)
       _, __, probs3 = ResNet18_b.predict(img)
@@ -73,14 +79,20 @@ def ensemble_model_options(col1, col2, img):
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
       st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
       
-    elif model_option == 'Vgg16 + Vgg19':
+  elif model_option == 'Vgg16 + Vgg19':
+    if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
       _, __, probs1 = Vgg16.predict(img)
       _, __, probs2 = Vgg19.predict(img)
       avg_probs = (probs1 + probs2)/2
       ensemble_prob, ensemble_idx = torch.max(avg_probs, 0)
       st.write("Model Prediction: C", ensemble_idx, "; Probability: ", ensemble_prob*100,'%')
       
-    elif model_option == 'Vgg19 + ResNet18_b':
+  elif model_option == 'Vgg19 + ResNet18_b':
+    if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
       _, __, probs1 = Vgg19.predict(img)
       _, __, probs2 = ResNet18_b.predict(img)
       avg_probs = (probs1 + probs2)/2
