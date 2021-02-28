@@ -142,8 +142,12 @@ def save_response_content(response, destination):
 
 def hybrid_model_options(col1, col2, img):
   model_option = col1.radio('Choose a model:', ['Vgg16 + SVM', 'Vgg16 + MLP'])
-  download_file_from_google_drive("FILEID", "FILEPATH") 
-                
+  download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
+  modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
+  _, __, probs = modified_vgg16.predict(img)
+  
+  st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx].item()*100,'%')
+  
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False):
   if try_test_image == True:
     # create 2 columns structure
