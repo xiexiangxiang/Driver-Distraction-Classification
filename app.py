@@ -155,7 +155,7 @@ def load_Mvgg16_trainData(img):
   return probs, train_f, train_t
     
 def hybrid_model_options(col1, col2, img):
-  model_option = col1.radio('Choose a model:', ['Vgg16 + SVM', 'Vgg16 + MLP'])
+  model_option = col1.radio('Choose a model:', ['Vgg16 + SVM']) ## 'Vgg16 + MLP' => MLP took too long to run
   probs, train_f, train_t = load_Mvgg16_trainData(img)
   if model_option == 'Vgg16 + SVM':
     if col2.button("Analyse"):
@@ -163,19 +163,18 @@ def hybrid_model_options(col1, col2, img):
         time.sleep(3)
       SVM = SVC(random_state=42, probability=True).fit(train_f, train_t.ravel())
       prob = SVM.predict_proba(np.array(probs).reshape(1, -1))
-      st.write("0: ", prob[0])
-      st.write("1: ", prob[1])
-      st.write("Probability: ", prob)
+      Max_prob_idx = np.amax(prob)
+      st.write("Model Prediction: C", Max_prob_idx, "; Probability: ", np.where(prob==Max_prob_idx))
+      st.write(prob)
+  '''
   elif model_option == 'Vgg16 + MLP':
     if col2.button("Analyse"):
       with st.spinner('Loading...'):
         time.sleep(3)
       MLP = MLPClassifier(random_state=42).fit(train_f, train_t.ravel())
       prob = MLP.predict_proba(np.array(probs).reshape(1, -1))
-      st.write("0: ", prob[0])
-      st.write("1: ", prob[1])
       st.write("Probability: ", prob)
-  
+  '''
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False, hybrid_model=False):
   if try_test_image == True:
     # create 2 columns structure
