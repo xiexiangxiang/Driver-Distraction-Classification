@@ -5,6 +5,8 @@ import urllib.request # get model.pkl
 import PIL
 import matplotlib.image as mpimg
 import time
+from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 
 ## Funtions
 def predict_img(col2, model_export_url, img):
@@ -141,13 +143,23 @@ def save_response_content(response, destination):
                 f.write(chunk)
 
 def hybrid_model_options(col1, col2, img):
-  model_option = col1.radio('Choose a model:', ['Vgg16 + SVM', 'Vgg16 + MLP'])
-  download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
-  modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
-  _, __, probs = modified_vgg16.predict(img)
-  urllib.request.urlretrieve(ModifiedVgg16_trainFeature_url, "trainFeature.csv")
-  urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
-  st.write("Files Loaded")
+  model_option = col1.radio('Choose a model:', ['Vgg16 + SVM'])
+  if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
+    download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
+    modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
+    _, __, probs = modified_vgg16.predict(img)
+    urllib.request.urlretrieve(ModifiedVgg16_trainFeature_url, "trainFeature.csv")
+    urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
+    ## Read Data CSV files
+    train_f = pd.read_csv('trainFeature.csv.csv')
+    train_ff = np.array(train_f)
+    train_t = pd.read_csv('trainTarget.csv')
+    train_tt = np.array(train_t)
+    SVM = SVC(random_state=42, probability=True).fit(train_ff, train_tt.ravel())
+    prob = SVM.predict_proba(probs)[0]
+    st.write("Files Loaded, probability: ", prob)
   
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False, hybrid_model=False):
   if try_test_image == True:
@@ -166,7 +178,6 @@ def input_image(try_test_image=False, upload_image=False, base_model=False, ense
       ensemble_model_options(col1, col2, img)
     elif hybrid_model==True:
       hybrid_model_options(col1, col2, img)
-      
   elif upload_image == True:
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
     if Uploaded is not None:
