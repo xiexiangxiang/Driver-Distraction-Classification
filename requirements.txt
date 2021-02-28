@@ -2,3 +2,4 @@ streamlit
 https://download.pytorch.org/whl/cpu/torch-1.4.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
 fastai==1.0.60
 torchvision==0.5.0
+scikit-learn
