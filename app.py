@@ -145,8 +145,8 @@ def save_response_content(response, destination):
 def hybrid_model_options(col1, col2, img):
   model_option = col1.radio('Choose a model:', ['Vgg16 + SVM'])
   if col2.button("Analyse"):
-      with st.spinner('Loading...'):
-        time.sleep(3)
+    with st.spinner('Loading...'):
+      time.sleep(3)
     download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
     modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
     _, __, probs = modified_vgg16.predict(img)
