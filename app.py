@@ -145,8 +145,9 @@ def hybrid_model_options(col1, col2, img):
   download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
   modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
   _, __, probs = modified_vgg16.predict(img)
-  
-  st.write("Model Prediction: ", pred, "; Probability: ", probs[pred_idx].item()*100,'%')
+  urllib.request.urlretrieve(ModifiedVgg16_trainFeature_url, "trainFeature.csv")
+  urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
+  st.write("Files Loaded")
   
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False):
   if try_test_image == True:
@@ -191,6 +192,9 @@ Vgg16_b_export_url = "https://drive.google.com/uc?export=download&id=1hmuOsHrkcK
 Vgg19_b_export_url = "https://drive.google.com/uc?export=download&id=1O83NNtBBZ4mH4p4kw5dPXDNPwuFoxBgn"
 ResNet18_b_export_url = "https://drive.google.com/uc?export=download&id=1QrZ8XMtqoKqAAMcAEfP14YsM1E4s5A5f"
 ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiWn1YV9hnJhLTpSe1ug_yka6u6t"
+# Hybrid-Train Data
+ModifiedVgg16_trainFeature_url = "https://drive.google.com/uc?export=download&id=1UssWIjYhmVeFlBPjAHWYe3E4vl-40NWV"
+ModifiedVgg16_trainTarget_url = "https://drive.google.com/uc?export=download&id=12C5YYa-WFGfMROHWr5FXiG3EIJ3_Pvpa"
 
 ## 1. Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
