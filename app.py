@@ -149,7 +149,7 @@ def hybrid_model_options(col1, col2, img):
   urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
   st.write("Files Loaded")
   
-def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False):
+def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False, hybrid_model=False):
   if try_test_image == True:
     # create 2 columns structure
     col1,col2 = st.beta_columns([1,2]) # 2nd column is 2 times of 1st column
@@ -164,6 +164,8 @@ def input_image(try_test_image=False, upload_image=False, base_model=False, ense
       base_model_options(col1, col2, img, predict=True)
     elif ensemble_model==True:
       ensemble_model_options(col1, col2, img)
+    elif hybrid_model==True:
+      hybrid_model_options(col1, col2, img)
       
   elif upload_image == True:
     Uploaded = st.file_uploader('', type=['png','jpg','jpeg'])
@@ -251,6 +253,6 @@ elif page == 'Hybrid Model Prediction':
   st.write('''---''')
   option = st.radio('Choose a distrated drving image', ['Try a test image', 'Upload an image'])
   if option == 'Try a test image':
-    input_image(try_test_image=True, ensemble_model=True)
+    input_image(try_test_image=True, hybrid_model=True)
   else:
-    input_image(upload_image=True, ensemble_model=True)
+    input_image(upload_image=True, hybrid_model=True)
