@@ -206,8 +206,8 @@ Vgg19_b_export_url = "https://drive.google.com/uc?export=download&id=1O83NNtBBZ4
 ResNet18_b_export_url = "https://drive.google.com/uc?export=download&id=1QrZ8XMtqoKqAAMcAEfP14YsM1E4s5A5f"
 ResNet34_b_export_url = "https://drive.google.com/uc?export=download&id=1UoXGwiWn1YV9hnJhLTpSe1ug_yka6u6t"
 # Hybrid-Train Data
-ModifiedVgg16_trainFeature_url = "https://drive.google.com/uc?export=download&id=1UssWIjYhmVeFlBPjAHWYe3E4vl-40NWV"
-ModifiedVgg16_trainTarget_url = "https://drive.google.com/uc?export=download&id=12C5YYa-WFGfMROHWr5FXiG3EIJ3_Pvpa"
+ModifiedVgg16_trainFeature_url = "https://drive.google.com/uc?export=download&id=1Uh7JK1_uLznedvtm9_WLfsw_Aeq-DsUs"
+ModifiedVgg16_trainTarget_url = "https://drive.google.com/uc?export=download&id=1itTjk7HfApLGfgrdTnvByKEsEV_KKGRl"
 
 ## 1. Page - Baseline Model Prediction
 if page == 'Baseline Model Prediction':
