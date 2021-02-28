@@ -158,7 +158,7 @@ def hybrid_model_options(col1, col2, img):
     train_t = pd.read_csv('trainTarget.csv')
     train_tt = np.array(train_t)
     SVM = SVC(random_state=42, probability=True).fit(train_ff, train_tt.ravel())
-    prob = SVM.predict_proba(probs)
+    prob = SVM.predict_proba(np.array(probs).reshape(1, -1))
     st.write("Files Loaded, probability: ", prob)
   
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False, hybrid_model=False):
