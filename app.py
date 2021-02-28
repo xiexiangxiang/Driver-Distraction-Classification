@@ -153,7 +153,7 @@ def hybrid_model_options(col1, col2, img):
     urllib.request.urlretrieve(ModifiedVgg16_trainFeature_url, "trainFeature.csv")
     urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
     ## Read Data CSV files
-    train_f = pd.read_csv('trainFeature.csv.csv')
+    train_f = pd.read_csv('trainFeature.csv')
     train_ff = np.array(train_f)
     train_t = pd.read_csv('trainTarget.csv')
     train_tt = np.array(train_t)
