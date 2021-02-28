@@ -141,25 +141,40 @@ def save_response_content(response, destination):
         for chunk in response.iter_content(CHUNK_SIZE):
             if chunk: 
                 f.write(chunk)
-
+                
+@st.cache(allow_output_mutation=True)
+def load_Mvgg16_trainData(img):
+  download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
+  modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
+  _, __, probs = modified_vgg16.predict(img)
+  urllib.request.urlretrieve(ModifiedVgg16_trainFeature_url, "trainFeature.csv")
+  urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
+  ## Read Data CSV files
+  train_f = np.array(pd.read_csv('trainFeature.csv'))
+  train_t = np.array(pd.read_csv('trainTarget.csv'))
+  return probs, train_f, train_t
+    
 def hybrid_model_options(col1, col2, img):
-  model_option = col1.radio('Choose a model:', ['Vgg16 + SVM'])
-  if col2.button("Analyse"):
-    with st.spinner('Loading...'):
-      time.sleep(3)
-    download_file_from_google_drive("1VFF6WXAvR5d6uB9s3iCEgLaEer10rvbz", "./modified_VGG16.pkl")
-    modified_vgg16 = load_learner('./', "modified_VGG16.pkl")
-    _, __, probs = modified_vgg16.predict(img)
-    urllib.request.urlretrieve(ModifiedVgg16_trainFeature_url, "trainFeature.csv")
-    urllib.request.urlretrieve(ModifiedVgg16_trainTarget_url, "trainTarget.csv")
-    ## Read Data CSV files
-    train_f = pd.read_csv('trainFeature.csv')
-    train_ff = np.array(train_f)
-    train_t = pd.read_csv('trainTarget.csv')
-    train_tt = np.array(train_t)
-    SVM = SVC(random_state=42, probability=True).fit(train_ff, train_tt.ravel())
-    prob = SVM.predict_proba(np.array(probs).reshape(1, -1))
-    st.write("Files Loaded, probability: ", prob)
+  model_option = col1.radio('Choose a model:', ['Vgg16 + SVM', 'Vgg16 + MLP'])
+  probs, train_f, train_t = load_Mvgg16_trainData(img)
+  if model_option == 'Vgg16 + SVM':
+    if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
+      SVM = SVC(random_state=42, probability=True).fit(train_f, train_t.ravel())
+      prob = SVM.predict_proba(np.array(probs).reshape(1, -1))
+      st.write("0: ", prob[0])
+      st.write("1: ", prob[1])
+      st.write("Probability: ", prob)
+  elif model_option == 'Vgg16 + MLP':
+    if col2.button("Analyse"):
+      with st.spinner('Loading...'):
+        time.sleep(3)
+      MLP = MLPClassifier(random_state=42).fit(train_f, train_t.ravel())
+      prob = MLP.predict_proba(np.array(probs).reshape(1, -1))
+      st.write("0: ", prob[0])
+      st.write("1: ", prob[1])
+      st.write("Probability: ", prob)
   
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False, hybrid_model=False):
   if try_test_image == True:
