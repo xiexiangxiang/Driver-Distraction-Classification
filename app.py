@@ -269,7 +269,7 @@ elif page == 'Ensemble Model Prediction':
 ## 3. Page - Hybrid Model Prediction
 elif page == 'Hybrid Model Prediction':
   st.title("Hybrid Driver Distraction Classification")
-  st.write('''## ** [VGG16 + SVM] & [VGG16 + MLP] **''')
+  st.write('''## ** [VGG16 + SVM] **''')
   link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
   link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
   st.markdown(link1, unsafe_allow_html=True)
