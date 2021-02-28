@@ -164,17 +164,16 @@ def hybrid_model_options(col1, col2, img):
       SVM = SVC(random_state=42, probability=True).fit(train_f, train_t.ravel())
       prob = SVM.predict_proba(np.array(probs).reshape(1, -1))
       Max_prob_idx = np.amax(prob)
-      st.write("Model Prediction: C", Max_prob_idx, "; Probability: ", np.where(prob==Max_prob_idx))
+      st.write("Model Prediction: C", np.where(prob==Max_prob_idx)[1].item(), "; Probability: ", Max_prob_idx*100,'%')
       st.write(prob)
-  '''
-  elif model_option == 'Vgg16 + MLP':
-    if col2.button("Analyse"):
-      with st.spinner('Loading...'):
-        time.sleep(3)
-      MLP = MLPClassifier(random_state=42).fit(train_f, train_t.ravel())
-      prob = MLP.predict_proba(np.array(probs).reshape(1, -1))
-      st.write("Probability: ", prob)
-  '''
+  #elif model_option == 'Vgg16 + MLP':
+    #if col2.button("Analyse"):
+      #with st.spinner('Loading...'):
+        #time.sleep(3)
+      #MLP = MLPClassifier(random_state=42).fit(train_f, train_t.ravel())
+      #prob = MLP.predict_proba(np.array(probs).reshape(1, -1))
+      #st.write("Probability: ", prob)
+
 def input_image(try_test_image=False, upload_image=False, base_model=False, ensemble_model=False, hybrid_model=False):
   if try_test_image == True:
     # create 2 columns structure
