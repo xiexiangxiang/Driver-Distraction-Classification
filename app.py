@@ -238,7 +238,7 @@ if page == 'Baseline Model Prediction':
    c8: Hair or Makeup, 
    c9: Talking to Passenger
   ''')
-  link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
+  link1 = '[Google Colab](https://drive.google.com/file/d/1MHiP4dvJ6zNZOYPR2jcO-o0zfcD6U8c4/view?usp=sharing)'
   link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
   st.markdown(link1, unsafe_allow_html=True)
   st.markdown(link2, unsafe_allow_html=True)
@@ -255,7 +255,7 @@ if page == 'Baseline Model Prediction':
 elif page == 'Ensemble Model Prediction':
   st.title("Ensemble Driver Distraction Classification")
   st.write('''## ** Top 5 Ensemble CNN Models **''')
-  link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
+  link1 = '[Google Colab](https://drive.google.com/file/d/1MHiP4dvJ6zNZOYPR2jcO-o0zfcD6U8c4/view?usp=sharing)'
   link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
   st.markdown(link1, unsafe_allow_html=True)
   st.markdown(link2, unsafe_allow_html=True)
@@ -270,7 +270,7 @@ elif page == 'Ensemble Model Prediction':
 elif page == 'Hybrid Model Prediction':
   st.title("Hybrid Driver Distraction Classification")
   st.write('''## ** [VGG16 + SVM] **''')
-  link1 = '[Google Colab](https://colab.research.google.com/drive/1YWqFjd_2PXyu70D-SHcwaKbZaOs5BNU-?usp=sharing)'
+  link1 = '[Google Colab](https://drive.google.com/file/d/1MHiP4dvJ6zNZOYPR2jcO-o0zfcD6U8c4/view?usp=sharing)'
   link2 = '[Github](https://github.com/xiexiangxiang/Driver-Distraction-Classification)'
   st.markdown(link1, unsafe_allow_html=True)
   st.markdown(link2, unsafe_allow_html=True)
