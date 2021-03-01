@@ -120,7 +120,7 @@ def ensemble_model_options(col1, col2, img):
       st.write("Model Prediction: C", ensemble_idx.item(), "; Probability: ", ensemble_prob.item()*100,'%')
       st.write(avg_probs,'%')
 
-## Large file download functions
+## Large file download functions - from online
 def download_file_from_google_drive(id, destination):
     URL = "https://docs.google.com/uc?export=download"
     session = requests.Session()
