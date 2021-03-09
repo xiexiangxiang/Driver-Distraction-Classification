@@ -204,6 +204,8 @@ def input_image(try_test_image=False, upload_image=False, base_model=False, ense
         base_model_options(col1, col2, img, predict=True)
       elif ensemble_model==True:
         ensemble_model_options(col1, col2, img)
+      elif hybrid_model==True:
+        hybrid_model_options(col1, col2, img)
 
 # Pages
 page = st.sidebar.selectbox("Choose a page", ['Baseline Model Prediction', 'Ensemble Model Prediction', 'Hybrid Model Prediction'])
